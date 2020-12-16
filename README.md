@@ -1,5 +1,5 @@
 <p align= "center">
-<img src="https://osu.ppy.sh/docs/images/logo.png" alt="Osu Logo" width="300"/>	
+<img src="https://i.imgur.com/TJCCSxO.png" alt="Osu Logo" width="700"/>	
 <h1 align= "center"> A Paladins API wrapper for Java</h1>
 </p>
 
