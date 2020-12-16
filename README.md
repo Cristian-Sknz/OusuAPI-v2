@@ -1,6 +1,6 @@
 <p align= "center">
 <img src="https://i.imgur.com/TJCCSxO.png" alt="Osu Logo" width="700"/>	
-<h1 align= "center"> A Paladins API wrapper for Java</h1>
+<h1 align= "center"> A Osu API v2 Wrapper for Java</h1>
 </p>
 
 ## :paperclip: My Objective
