@@ -1,10 +1,10 @@
-package me.skiincraft.api.osu.impl.beatmap;
+package me.skiincraft.api.osu.impl.v2.beatmap;
 
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSet;
 import me.skiincraft.api.osu.entity.user.UserCompact;
-import me.skiincraft.api.osu.impl.user.UserCompactImpl;
+import me.skiincraft.api.osu.impl.v2.user.UserCompactImpl;
 import me.skiincraft.api.osu.object.beatmap.Covers;
 import me.skiincraft.api.osu.object.beatmap.Genre;
 import me.skiincraft.api.osu.object.beatmap.Language;
@@ -77,7 +77,7 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
     }
 
     @Override
-    public boolean canBeHyped() {
+    public Boolean canBeHyped() {
         return canBeHyped;
     }
 
@@ -87,12 +87,12 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
     }
 
     @Override
-    public boolean hasDiscussionEnabled() {
+    public Boolean hasDiscussionEnabled() {
         return discussionenabled;
     }
 
     @Override
-    public boolean hasDiscussionLocked() {
+    public Boolean hasDiscussionLocked() {
         return discussionlocked;
     }
 
@@ -170,23 +170,27 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
     }
 
     @Override
-    public int getNominationsCurrent() {
+    public Integer getNominationsCurrent() {
         return nominationsSummary.get("current");
     }
 
     @Override
-    public int getNominationsRequired() {
+    public Integer getNominationsRequired() {
         return nominationsSummary.get("required");
     }
 
     @Override
     public String toString() {
-        return super.toString() + "BeatmapSet{" +
-                "beatmaps=" + Arrays.toString(beatmaps) +
-                ", language=" + language +
-                ", genre=" + genre +
-                ", lastUpdated='" + lastUpdated + '\'' +
-                ", user=" + user +
-                "} ";
+        return "BeatmapSet{" +
+                "title='" + getTitle() + '\'' +
+                ", artist='" + getArtist() + '\'' +
+                ", beatmapSetId=" + getBeatmapSetId() +
+                ", creator='" + getCreator() + '\'' +
+                ", status=" + getStatus() +
+                ", userId=" + getUserId() +
+                ", bpm=" + getBPM() +
+                ", playcount=" + getPlayCount() +
+                ", beatmaps=" + Arrays.toString(beatmaps) +
+                "}";
     }
 }

@@ -1,13 +1,13 @@
-package me.skiincraft.api.osu.impl.score;
+package me.skiincraft.api.osu.impl.v2.score;
 
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSetCompact;
 import me.skiincraft.api.osu.entity.score.Score;
 import me.skiincraft.api.osu.entity.user.UserCompact;
-import me.skiincraft.api.osu.impl.beatmap.BeatmapImpl;
-import me.skiincraft.api.osu.impl.beatmap.BeatmapSetCompactImpl;
-import me.skiincraft.api.osu.impl.user.UserCompactImpl;
+import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapImpl;
+import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapSetCompactImpl;
+import me.skiincraft.api.osu.impl.v2.user.UserCompactImpl;
 import me.skiincraft.api.osu.object.beatmap.Mods;
 import me.skiincraft.api.osu.object.score.ScoreStatistics;
 
@@ -16,16 +16,17 @@ import java.time.OffsetDateTime;
 
 public class ScoreImpl implements Score {
 
-    @SerializedName("id")
+    @SerializedName(value = "id", alternate = {"score_id"})
     private final long scoreId;
     @SerializedName("best_id")
     private final long bestId;
     @SerializedName("user_id")
     private final long userId;
-    @SerializedName("max_combo")
+    @SerializedName(value = "max_combo", alternate = {"maxcombo"})
     private final long maxCombo;
     private final float accuracy;
     private final String[] mods;
+
     private final long score;
     private final boolean perfect;
     private final boolean replay;
@@ -65,7 +66,7 @@ public class ScoreImpl implements Score {
     }
 
     @Override
-    public long getBestId() {
+    public Long getBestId() {
         return bestId;
     }
 
@@ -147,7 +148,7 @@ public class ScoreImpl implements Score {
 
     @Override
     public String toString() {
-        return "ScoreImpl{" +
+        return "Score{" +
                 "scoreId=" + scoreId +
                 ", userId=" + userId +
                 ", username=" + getUsername() +

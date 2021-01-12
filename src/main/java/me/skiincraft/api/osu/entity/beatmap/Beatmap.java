@@ -8,42 +8,42 @@ import java.time.OffsetDateTime;
 
 public interface Beatmap extends BeatmapCompact {
 
-    float getAccuracy();
+    float getAccuracy(); //
 
-    float getAR();
+    float getAR(); //
 
     float getBPM();
 
-    int getCircles(); //
+    int getCircles();
 
-    int getSliders(); //
+    int getSliders();
 
-    int getSpinners(); //
+    int getSpinners();
 
     float getDrain();
 
-    int getHitLength(); //
+    int getHitLength();
 
-    long getBeatmapSetId(); //
+    long getBeatmapSetId();
 
     long getPassCount();
 
     long getPlayCount();
 
-    boolean isConverted();
+    boolean isConverted(); //
 
-    boolean isScoreable(); //
+    boolean isScoreable();
 
-    float getCS();
+    float getCS(); //
 
     @Nullable
     OffsetDateTime wasDeletedAt(); //
 
-    OffsetDateTime getLastUpdated(); //
+    OffsetDateTime getLastUpdated();
 
     Approval getStatus();
 
-    FailTimes getFailTimes();
+    FailTimes getFailTimes(); //
 
     BeatmapSetCompact getBeatmapSet();
 

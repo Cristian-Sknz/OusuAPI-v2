@@ -1,8 +1,12 @@
 package me.skiincraft.api.osu.object.beatmap;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Covers {
+
+    @Expose
+    private final String resourceURL = "https://assets.ppy.sh/beatmaps/%s/covers/%s.jpg";
 
     private final String cover;
     @SerializedName("cover@2x")
@@ -17,15 +21,23 @@ public class Covers {
     @SerializedName("slimcover@2x")
     private final String slimCover2x;
 
-    public Covers(String cover, String cover2x, String card, String card2x, String list, String list2x, String slimcover, String slimcover2x) {
-        this.cover = cover;
-        this.cover2x = cover2x;
-        this.card = card;
-        this.card2x = card2x;
-        this.list = list;
-        this.list2x = list2x;
-        this.slimcover = slimcover;
-        this.slimCover2x = slimcover2x;
+    @Expose
+    private long beatmapSetId;
+
+    public Covers(long beatmapSetId) {
+        this.beatmapSetId = beatmapSetId;
+        this.cover = format("cover");
+        this.cover2x = format("cover@2x");
+        this.card = format("card");
+        this.card2x = format("card@2x");
+        this.list = format("list");
+        this.list2x = format("list@2x");
+        this.slimcover = format("slimcover");
+        this.slimCover2x = format("slimcover@2x");
+    }
+
+    private String format(String type){
+        return String.format(resourceURL, beatmapSetId, type);
     }
 
     public String getCover() {

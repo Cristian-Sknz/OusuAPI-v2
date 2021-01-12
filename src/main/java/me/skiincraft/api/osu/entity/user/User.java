@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public interface User extends UserCompact {
+public interface User extends SimpleUser, UserCompact {
 
     Cover getCover();
 
@@ -23,14 +23,14 @@ public interface User extends UserCompact {
 
     String[] getPreviousUsernames();
 
-    int getSupportLevel();
+    int getSupportLevel(); //
 
-    boolean hasPMFriendsOnly();
+    boolean hasPMFriendsOnly(); //
 
-    boolean hasSupported();
+    boolean hasSupported(); //
 
     @Nullable
-    String getDiscord();
+    String getDiscord(); //
 
     @Nullable
     String getInterests();

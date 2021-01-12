@@ -1,4 +1,4 @@
-package me.skiincraft.api.osu.impl.beatmap;
+package me.skiincraft.api.osu.impl.v2.beatmap;
 
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
@@ -14,14 +14,15 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
     private final float accuracy;
     private final float ar;
     private final float bpm;
-    @SerializedName("count_circles")
+    @SerializedName(value = "count_circles", alternate = {"count_normal"})
     private final int circles;
-    @SerializedName("count_sliders")
+    @SerializedName(value = "count_sliders", alternate = {"count_slider"})
     private final int sliders;
-    @SerializedName("count_spinners")
+    @SerializedName(value = "count_spinners", alternate = {"count_spinner"})
     private final int spinners;
+    @SerializedName(value = "drain", alternate = {"diff_drain"})
     private final float drain;
-    @SerializedName("hit_length")
+    @SerializedName(value = "hit_length")
     private final int hitlength;
 
     @SerializedName("beatmapset_id")
@@ -36,12 +37,14 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
     private final float cs;
     @SerializedName("deleted_at")
     private final String deletedat;
-    @SerializedName("last_updated")
+    @SerializedName(value = "last_updated", alternate = {"last_update"})
     private final String lastUpdated;
-    @SerializedName("ranked")
+    @SerializedName(value = "ranked", alternate = {"approved"})
     private final int status;
     private final FailTimes failtimes;
     private final BeatmapSetCompactImpl beatmapset;
+
+    //v1
 
     public BeatmapImpl(float difficultRating, long beatmapId, int gamemodeId, int totalLength, String version, float accuracy, int ar, int bpm, int circles, int sliders, int spinners, int drain, int hitlength, long beatmapSetId, long passcount, long playcount, boolean convert, boolean isScoreable, float cs, String deletedat, String lastUpdated, int status, FailTimes failtimes, BeatmapSetCompactImpl beatmapset) {
         super(difficultRating, beatmapId, gamemodeId, totalLength, version);
@@ -144,7 +147,7 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
 
     @Override
     public OffsetDateTime getLastUpdated() {
-        return OffsetDateTime.parse(lastUpdated);
+        return OffsetDateTime.parse(getLastUpdatedString());
     }
 
     @Override
@@ -160,5 +163,32 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
     @Override
     public BeatmapSetCompact getBeatmapSet() {
         return beatmapset;
+    }
+
+    protected String getLastUpdatedString(){
+        return lastUpdated;
+    }
+
+    @Override
+    public String toString() {
+        return "Beatmap{" +
+                "beatmapId=" + getBeatmapId() +
+                ", gamemodeId=" + getGameMode().getId() +
+                ", version='" + getVersion() + '\'' +
+                ", difficultRating=" + getDifficultyRating() +
+                ", totalLenght=" + getTotalLength() +
+                ", bpm=" + bpm +
+                ", beatmapSetId=" + beatmapSetId +
+                ", playcount=" + playcount +
+                ", status=" + status +
+                String.format(", beatmapset={%s}",
+                        "title='" + getBeatmapSet().getTitle() + '\'' +
+                        ", artist='" + getBeatmapSet().getArtist() + '\'' +
+                        ", beatmapSetId=" + getBeatmapSet().getBeatmapSetId() + '\'' +
+                        ", creator='" + getBeatmapSet().getCreator() + '\'' +
+                        ", status=" + getBeatmapSet().getStatus() +
+                        ", userId=" + getBeatmapSet().getUserId() +
+                        "playcount=" + getBeatmapSet().getPlayCount()) +
+                "}";
     }
 }

@@ -1,9 +1,9 @@
 package me.skiincraft.api.osu.requests.impl;
 
 import me.skiincraft.api.osu.OsuAPI;
+import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.requests.APIRequest;
 import me.skiincraft.api.osu.requests.ResponseParser;
-import me.skiincraft.api.osu.requests.Token;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -11,6 +11,7 @@ import okhttp3.Response;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class DefaultAPIRequest<T> implements APIRequest<T> {
@@ -108,7 +109,7 @@ public class DefaultAPIRequest<T> implements APIRequest<T> {
         }
 
         Request.Builder request = new Request.Builder()
-                .url(url)
+                .url(Objects.requireNonNull(url))
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json");
 
@@ -124,6 +125,6 @@ public class DefaultAPIRequest<T> implements APIRequest<T> {
     }
 
     private OkHttpClient getClient() {
-        return (token == null) ? api.getClient() : token.getApi().getClient();
+        return (token == null) ? Objects.requireNonNull(api).getClient() : token.getAPI().getClient();
     }
 }

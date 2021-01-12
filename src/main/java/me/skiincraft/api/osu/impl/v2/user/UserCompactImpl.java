@@ -1,4 +1,4 @@
-package me.skiincraft.api.osu.impl.user;
+package me.skiincraft.api.osu.impl.v2.user;
 
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.user.UserCompact;
@@ -7,22 +7,24 @@ import java.awt.*;
 
 public class UserCompactImpl implements UserCompact {
 
+    @SerializedName("user_id")
     private final long id;
+    @SerializedName("username")
     private final String username;
     @SerializedName("profile_colour")
-    private final String profileColour;
+    private final String profileColour; //
     @SerializedName("avatar_url")
-    private final String avatarUrl;
-    @SerializedName("country_code")
+    private final String avatarUrl; //
+    @SerializedName(value = "country_code", alternate = {"country"})
     private final String countryCode;
     @SerializedName("is_active")
-    private final boolean isActive;
+    private final boolean isActive; //
     @SerializedName("is_bot")
-    private final boolean isBot;
+    private final boolean isBot; //
     @SerializedName("is_online")
-    private final boolean isOnline;
+    private final boolean isOnline; //
     @SerializedName("is_supporter")
-    private final boolean isSupporter;
+    private final boolean isSupporter; //
 
     public UserCompactImpl(long id, String username, String profileColour, String avatarUrl, String countryCode, boolean isActive, boolean isBot, boolean isOnline, boolean isSupporter) {
         this.id = id;
@@ -89,9 +91,9 @@ public class UserCompactImpl implements UserCompact {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", countryCode='" + countryCode + '\'' +
-                ", isBot=" + isBot +
-                ", isOnline=" + isOnline +
-                ", isSupporter=" + isSupporter +
+                ", isBot=" + isBot() +
+                ", isOnline=" + isOnline() +
+                ", isSupporter=" + isSupporter() +
                 '}';
     }
 }

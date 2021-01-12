@@ -8,22 +8,26 @@ import me.skiincraft.api.osu.object.score.ScoreStatistics;
 
 import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 public interface Score {
 
-    default long getBeatmapSetId() {
-        return getBeatmapSet().getBeatmapSetId();
+    default Long getBeatmapSetId() {
+        return Objects.requireNonNull(getBeatmapSet()).getBeatmapSetId();
     }
 
     default long getBeatmapId() {
-        return getBeatmap().getBeatmapId();
+        return Objects.requireNonNull(getBeatmap()).getBeatmapId();
     }
+
+    @Nullable
     default String getUsername() {
         return getUser().getUsername();
     }
 
     long getScoreId(); //
-    long getBestId(); //
+    @Nullable
+    Long getBestId(); //
     long getUserId(); //
     float getAccuracy();
     Mods[] getMods();
@@ -35,7 +39,9 @@ public interface Score {
     String getRank();
     OffsetDateTime getCreatedDate(); //
     boolean hasReplay();
+    @Nullable
     Beatmap getBeatmap();
+    @Nullable
     BeatmapSetCompact getBeatmapSet();
     UserCompact getUser();
 

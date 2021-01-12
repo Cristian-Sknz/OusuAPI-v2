@@ -1,4 +1,4 @@
-package me.skiincraft.api.osu.impl.beatmap;
+package me.skiincraft.api.osu.impl.v2.beatmap;
 
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapCompact;
@@ -6,11 +6,11 @@ import me.skiincraft.api.osu.object.game.GameMode;
 
 public class BeatmapCompactImpl implements BeatmapCompact {
 
-    @SerializedName("difficulty_rating")
+    @SerializedName(value = "difficulty_rating", alternate = {"rating"})
     private final float difficultRating;
-    @SerializedName("id")
+    @SerializedName(value = "id", alternate= {"beatmap_id"})
     private final long beatmapId;
-    @SerializedName("mode_int")
+    @SerializedName(value = "mode_int", alternate = {"mode"})
     private final int gamemodeId;
     @SerializedName("total_length")
     private final int totalLength;

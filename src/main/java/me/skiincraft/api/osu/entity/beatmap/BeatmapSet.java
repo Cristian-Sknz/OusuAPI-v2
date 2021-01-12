@@ -11,48 +11,57 @@ import java.util.List;
 public interface BeatmapSet extends BeatmapSetCompact {
 
     /* <?> getHype();*/
-    boolean canBeHyped(); //
+    @Nullable
+    Boolean canBeHyped(); //
 
-    boolean hasDownloadDisabled(); //
+    boolean hasDownloadDisabled();
 
-    boolean hasDiscussionEnabled(); //
+    @Nullable
+    Boolean hasDiscussionEnabled(); //
 
-    boolean hasDiscussionLocked(); //
+    @Nullable
+    Boolean hasDiscussionLocked(); //
 
     boolean hasStoryboard();
 
-    boolean isScoreable();//
+    boolean isScoreable();
 
-    OffsetDateTime getLastUpdated(); //
+    OffsetDateTime getLastUpdated();
 
     @Nullable
     String getLegacyThreadUrl(); //
 
     @Nullable
-    OffsetDateTime getRankedDate(); //
+    OffsetDateTime getRankedDate();
 
     @Nullable
-    OffsetDateTime getSubmittedDate(); //
+    OffsetDateTime getSubmittedDate();
 
     String getTags();
 
     List<Beatmap> getBeatmaps();
 
-    List<Beatmap> getConverts();
+    @Nullable
+    List<Beatmap> getConverts(); //
 
-    String getDescription();
+    @Nullable
+    String getDescription(); //
 
-    Genre getGenre(); //
+    Genre getGenre();
 
     Language getLanguage();
 
-    List<UserCompact> getRecentFavourites();
+    @Nullable
+    List<UserCompact> getRecentFavourites(); //
 
-    UserCompact getUser();
+    @Nullable
+    UserCompact getUser(); //
 
-    int getNominationsCurrent(); //
+    @Nullable
+    Integer getNominationsCurrent(); //
 
-    int getNominationsRequired(); //
+    @Nullable
+    Integer getNominationsRequired(); //
 
 
 }

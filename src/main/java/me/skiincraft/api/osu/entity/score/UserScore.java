@@ -1,6 +1,6 @@
 package me.skiincraft.api.osu.entity.score;
 
-import me.skiincraft.api.osu.impl.score.ScoreImpl;
+import me.skiincraft.api.osu.impl.v2.score.ScoreImpl;
 
 public class UserScore {
 

@@ -9,21 +9,21 @@ public interface BeatmapSetCompact {
 
     String getTitle();
 
-    String getTitleUnicode(); //
+    String getTitleUnicode();
 
     String getArtist();
 
-    String getArtistUnicode(); //
+    String getArtistUnicode();
 
     String getCreator();
 
-    long getUserId(); //
+    long getUserId();
 
-    long getBeatmapSetId(); //
+    long getBeatmapSetId();
 
     long getPlayCount(); //
 
-    long getFavourites(); //
+    long getFavourites();
 
     float getBPM();
 
@@ -34,9 +34,9 @@ public interface BeatmapSetCompact {
     @Nullable
     String getSource();
 
-    Approval getStatus(); //
+    Approval getStatus();
 
-    long[] getRatings();
+    long[] getRatings(); //
 
     default String getPreviewURL() {
         return String.format("http://b.ppy.sh/preview/%s.mp3", getBeatmapSetId());

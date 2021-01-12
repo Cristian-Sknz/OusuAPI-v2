@@ -1,25 +1,27 @@
-package me.skiincraft.api.osu.requests.impl;
+package me.skiincraft.api.osu.requests.impl.endpoint;
 
 import com.google.gson.Gson;
+import me.skiincraft.api.osu.entity.user.SimpleUser;
+import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSearch;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSet;
 import me.skiincraft.api.osu.entity.score.BeatmapScores;
 import me.skiincraft.api.osu.entity.score.Score;
 import me.skiincraft.api.osu.entity.user.User;
-import me.skiincraft.api.osu.impl.beatmap.BeatmapImpl;
-import me.skiincraft.api.osu.impl.beatmap.BeatmapSearchImpl;
-import me.skiincraft.api.osu.impl.beatmap.BeatmapSetImpl;
-import me.skiincraft.api.osu.impl.score.BeatmapScoresImpl;
-import me.skiincraft.api.osu.impl.score.ScoreImpl;
+import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapImpl;
+import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapSearchImpl;
+import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapSetImpl;
+import me.skiincraft.api.osu.impl.v2.score.BeatmapScoresImpl;
+import me.skiincraft.api.osu.impl.v2.score.ScoreImpl;
 import me.skiincraft.api.osu.object.beatmap.UserBeatmapType;
-import me.skiincraft.api.osu.impl.user.UserImpl;
+import me.skiincraft.api.osu.impl.v2.user.UserImpl;
 import me.skiincraft.api.osu.object.beatmap.SearchFilter;
 import me.skiincraft.api.osu.object.game.GameMode;
 import me.skiincraft.api.osu.object.score.ScoreType;
 import me.skiincraft.api.osu.requests.APIRequest;
 import me.skiincraft.api.osu.requests.Endpoint;
-import me.skiincraft.api.osu.requests.Token;
+import me.skiincraft.api.osu.requests.impl.DefaultAPIRequest;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -27,12 +29,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class EndpointImpl implements Endpoint {
+public class EndpointV2 implements Endpoint {
 
     private static final String URL_V2 = "https://osu.ppy.sh/api/v2/";
     private final Token token;
 
-    public EndpointImpl(Token token) {
+    public EndpointV2(Token token) {
         this.token = token;
     }
 
@@ -50,7 +52,7 @@ public class EndpointImpl implements Endpoint {
     }
 
     @Override
-    public APIRequest<User> getUser(long userId, GameMode mode) {
+    public APIRequest<SimpleUser> getUser(long userId, GameMode mode) {
         return new DefaultAPIRequest<>(URL_V2 + String.format("users/%s/%s", userId, mode.name().toLowerCase()),
                 (response -> {
                     try {

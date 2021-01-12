@@ -1,4 +1,4 @@
-package me.skiincraft.api.osu.impl.user;
+package me.skiincraft.api.osu.impl.v2.user;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -313,6 +313,11 @@ public class UserImpl extends UserCompactImpl implements User {
     @Override
     public UserStatistics getStatistics() {
         return statistics;
+    }
+
+    @Override
+    public boolean isCompleteUser() {
+        return true;
     }
 
     @Override

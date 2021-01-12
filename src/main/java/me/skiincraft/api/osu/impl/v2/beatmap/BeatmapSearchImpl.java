@@ -1,9 +1,8 @@
-package me.skiincraft.api.osu.impl.beatmap;
+package me.skiincraft.api.osu.impl.v2.beatmap;
 
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSearch;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSet;
-import me.skiincraft.api.osu.entity.beatmap.BeatmapSetCompact;
 
 import java.util.Arrays;
 import java.util.List;
