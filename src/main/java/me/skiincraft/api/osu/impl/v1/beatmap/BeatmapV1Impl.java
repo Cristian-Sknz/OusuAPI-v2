@@ -68,7 +68,7 @@ public class BeatmapV1Impl extends BeatmapImpl implements Beatmap {
 
     @Override
     public BeatmapSetCompact getBeatmapSet() {
-        return new BeatmapSetCompactImpl(title,artist,titleUnicode,artistUnicode,creator,creatorId, getBeatmapSetId(), getPassCount(), favourites, getBPM(), video == 1, new Covers(getBeatmapSetId()), source, getStatus().getId(), new long[0]);
+        return new BeatmapSetCompactImpl(title,artist,titleUnicode,artistUnicode,creator,creatorId, getBeatmapSetId(), getPassCount(), rankedDate, submitDate ,favourites, getBPM(), video == 1, new Covers(getBeatmapSetId()), source, getStatus().getId(), new long[0]);
     }
 
     public int getDownloadDisabled() {

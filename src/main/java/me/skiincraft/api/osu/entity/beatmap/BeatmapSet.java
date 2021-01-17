@@ -31,12 +31,6 @@ public interface BeatmapSet extends BeatmapSetCompact {
     @Nullable
     String getLegacyThreadUrl(); //
 
-    @Nullable
-    OffsetDateTime getRankedDate();
-
-    @Nullable
-    OffsetDateTime getSubmittedDate();
-
     String getTags();
 
     List<Beatmap> getBeatmaps();

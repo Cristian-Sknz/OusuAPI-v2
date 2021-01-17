@@ -54,7 +54,7 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
     private final Map<String, Integer> nominationsSummary;
 
     public BeatmapSetImpl(String title, String artist, String titleUnicode, String artistUnicode, String creator, long userId, long beatmapSetId, long playcount, long favourites, int bpm, boolean video, Covers covers, String source, int status, long[] ratings, boolean canBeHyped, Map<String, String> downloaddisabled, boolean discussionenabled, boolean discussionlocked, boolean storyboard, boolean isScoreable, String lastUpdated, String legacyThreadUrl, String rankedDate, String submittedDate, String tags, BeatmapImpl[] beatmaps, BeatmapImpl[] converts, Map<String, String> description, Map<String, String> genre, Map<String, String> language, UserCompactImpl[] recentFavourites, UserCompactImpl user, Map<String, Integer> nominationsSummary) {
-        super(title, artist, titleUnicode, artistUnicode, creator, userId, beatmapSetId, playcount, favourites, bpm, video, covers, source, status, ratings);
+        super(title, artist, titleUnicode, artistUnicode, creator, userId, beatmapSetId, playcount, rankedDate, submittedDate,favourites, bpm, video, covers, source, status, ratings);
         this.canBeHyped = canBeHyped;
         this.downloaddisabled = downloaddisabled;
         this.discussionenabled = discussionenabled;
@@ -115,18 +115,6 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
     @Override
     public String getLegacyThreadUrl() {
         return legacyThreadUrl;
-    }
-
-    @Nullable
-    @Override
-    public OffsetDateTime getRankedDate() {
-        return (rankedDate == null) ? null : OffsetDateTime.parse(rankedDate);
-    }
-
-    @Nullable
-    @Override
-    public OffsetDateTime getSubmittedDate() {
-        return (submittedDate == null) ? null : OffsetDateTime.parse(submittedDate);
     }
 
     @Override

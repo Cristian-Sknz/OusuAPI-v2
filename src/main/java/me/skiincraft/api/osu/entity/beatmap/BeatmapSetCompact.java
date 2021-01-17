@@ -4,6 +4,7 @@ import me.skiincraft.api.osu.object.beatmap.Approval;
 import me.skiincraft.api.osu.object.beatmap.Covers;
 
 import javax.annotation.Nullable;
+import java.time.OffsetDateTime;
 
 public interface BeatmapSetCompact {
 
@@ -37,6 +38,12 @@ public interface BeatmapSetCompact {
     Approval getStatus();
 
     long[] getRatings(); //
+
+    @Nullable
+    OffsetDateTime getRankedDate();
+
+    @Nullable
+    OffsetDateTime getSubmittedDate();
 
     default String getPreviewURL() {
         return String.format("http://b.ppy.sh/preview/%s.mp3", getBeatmapSetId());

@@ -7,6 +7,7 @@ import me.skiincraft.api.osu.object.beatmap.Approval;
 import me.skiincraft.api.osu.object.beatmap.Covers;
 
 import javax.annotation.Nullable;
+import java.time.OffsetDateTime;
 
 public class BeatmapSetCompactImpl implements BeatmapSetCompact {
 
@@ -23,6 +24,11 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
     @SerializedName("id")
     private final long beatmapSetId;
     private final long playcount;
+
+    @SerializedName("ranked_date")
+    private final String rankedDate;
+    @SerializedName("submitted_date")
+    private final String submittedDate;
 
     @SerializedName("favourite_count")
     private final long favourites;
@@ -44,6 +50,8 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
         this.userId = compact.getUserId();
         this.beatmapSetId = compact.getBeatmapSetId();
         this.playcount = compact.getPlayCount();
+        this.rankedDate = (compact.getRankedDate() == null) ? null : compact.getRankedDate().toString();
+        this.submittedDate = (compact.getSubmittedDate() == null) ? null : compact.getSubmittedDate().toString();
         this.favourites = compact.getFavourites();
         this.bpm = compact.getBPM();
         this.video = compact.hasVideo();
@@ -53,7 +61,7 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
         this.ratings = compact.getRatings();
     }
 
-    public BeatmapSetCompactImpl(String title, String artist, String titleUnicode, String artistUnicode, String creator, long userId, long beatmapSetId, long playcount, long favourites, float bpm, boolean video, Covers covers, String source, int status, long[] ratings) {
+    public BeatmapSetCompactImpl(String title, String artist, String titleUnicode, String artistUnicode, String creator, long userId, long beatmapSetId, long playcount, String rankedDate, String submittedDate, long favourites, float bpm, boolean video, Covers covers, String source, int status, long[] ratings) {
         this.title = title;
         this.artist = artist;
         this.titleUnicode = titleUnicode;
@@ -62,6 +70,8 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
         this.userId = userId;
         this.beatmapSetId = beatmapSetId;
         this.playcount = playcount;
+        this.rankedDate = rankedDate;
+        this.submittedDate = submittedDate;
         this.favourites = favourites;
         this.bpm = bpm;
         this.video = video;
@@ -145,6 +155,18 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
     @Override
     public long[] getRatings() {
         return ratings;
+    }
+
+    @Nullable
+    @Override
+    public OffsetDateTime getRankedDate() {
+        return (rankedDate == null) ? null : OffsetDateTime.parse(rankedDate);
+    }
+
+    @Nullable
+    @Override
+    public OffsetDateTime getSubmittedDate() {
+        return (submittedDate == null) ? null : OffsetDateTime.parse(submittedDate);
     }
 
 
