@@ -21,7 +21,9 @@ public class OsuAPIV1 implements OsuAPI {
 
     @Override
     public APIRequest<Token> createToken(@Nonnull String token) {
-        return new FakeAPIRequest<>(new APIToken(this, token, true), 200);
+        APIToken apiToken = new APIToken(this, token, true);
+        tokens.add(apiToken);
+        return new FakeAPIRequest<>(apiToken, 200);
     }
 
     @Override
