@@ -1,12 +1,14 @@
 package me.skiincraft.api.osu.object.user;
 
 import com.google.gson.annotations.SerializedName;
+import me.skiincraft.api.osu.entity.user.UserCompact;
+import me.skiincraft.api.osu.impl.v2.user.UserCompactImpl;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserStatistics {
+public class UserStatistics implements Comparable<UserStatistics> {
 
     private final Map<String, Integer> level;
     private final float pp;
@@ -33,8 +35,9 @@ public class UserStatistics {
     @SerializedName("grade_count")
     private final Grade grade;
     private final Map<String, Integer> rank;
+    private final UserCompactImpl user;
 
-    public UserStatistics(Map<String, Integer> level, float pp, float hitAccuracy, int ppRank, long rankedScore, long playCount, long playTime, long totalScore, long totalHits, long maxCombo, long replaysWatchds, boolean isRanked, Grade grade, Map<String, Integer> rank) {
+    public UserStatistics(Map<String, Integer> level, float pp, float hitAccuracy, int ppRank, long rankedScore, long playCount, long playTime, long totalScore, long totalHits, long maxCombo, long replaysWatchds, boolean isRanked, Grade grade, Map<String, Integer> rank, UserCompactImpl user) {
         this.level = level;
         this.pp = pp;
         this.hitAccuracy = hitAccuracy;
@@ -49,9 +52,10 @@ public class UserStatistics {
         this.isRanked = isRanked;
         this.grade = grade;
         this.rank = rank;
+        this.user = user;
     }
 
-    public UserStatistics(int levelInt, float pp, float hitAccuracy, int ppRank, long rankedScore, long playCount, long playTime, long totalScore, long totalHits, Long maxCombo, Long replaysWatchds, boolean isRanked, Grade grade, int ppCountry) {
+    public UserStatistics(int levelInt, float pp, float hitAccuracy, int ppRank, long rankedScore, long playCount, long playTime, long totalScore, long totalHits, Long maxCombo, Long replaysWatchds, boolean isRanked, Grade grade, int ppCountry, UserCompactImpl user) {
         this.level = new HashMap<>();
         level.put("current", levelInt);
         level.put("progress", 0);
@@ -70,6 +74,7 @@ public class UserStatistics {
         this.rank = new HashMap<>();
         rank.put("global", ppRank);
         rank.put("country", ppCountry);
+        this.user = user;
     }
 
     public int getCurrentLevel() {
@@ -136,5 +141,24 @@ public class UserStatistics {
 
     public long getCountryRank() {
         return rank.get("country");
+    }
+
+    public UserCompact getUser() {
+        return user;
+    }
+
+    @Override
+    public int compareTo(UserStatistics o) {
+        return Float.compare(getPpRank(), o.getPpRank());
+    }
+
+    @Override
+    public String toString() {
+        return "UserStatistics{" +
+                "user=" + user +
+                ", pp=" + pp +
+                ", grade=" + grade +
+                ", rank=" + rank +
+                '}';
     }
 }

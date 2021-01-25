@@ -22,7 +22,7 @@ public class Covers {
     private final String slimCover2x;
 
     @Expose
-    private long beatmapSetId;
+    private final long beatmapSetId;
 
     public Covers(long beatmapSetId) {
         this.beatmapSetId = beatmapSetId;
@@ -36,7 +36,7 @@ public class Covers {
         this.slimCover2x = format("slimcover@2x");
     }
 
-    private String format(String type){
+    private String format(String type) {
         return String.format(resourceURL, beatmapSetId, type);
     }
 

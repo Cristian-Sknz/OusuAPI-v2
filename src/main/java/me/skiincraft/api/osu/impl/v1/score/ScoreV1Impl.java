@@ -21,11 +21,7 @@ public class ScoreV1Impl extends ScoreImpl implements Score {
 
     @SerializedName(value = "replay_available")
     private final int replayAvailable;
-
-    @SerializedName(value = "beatmap_id")
-    private long beatmapId;
     private final String date;
-
     @SerializedName("count50")
     private final int s50;
     @SerializedName("count100")
@@ -38,7 +34,8 @@ public class ScoreV1Impl extends ScoreImpl implements Score {
     private final int katu;
     @SerializedName("countmiss")
     private final int miss;
-
+    @SerializedName(value = "beatmap_id")
+    private long beatmapId;
     private ScoreStatistics scoreStatistics;
 
     public ScoreV1Impl(long scoreId, long userId, long maxCombo, long score, boolean perfect, ScoreStatistics statistics, float pp, String rank, String username, long enabledMods, int replayAvailable, String date) {
@@ -90,6 +87,11 @@ public class ScoreV1Impl extends ScoreImpl implements Score {
         return beatmapId;
     }
 
+    public ScoreV1Impl setBeatmapId(long beatmapId) {
+        this.beatmapId = beatmapId;
+        return this;
+    }
+
     @Override
     public OffsetDateTime getCreatedDate() {
         return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atOffset(ZoneOffset.UTC);
@@ -105,8 +107,8 @@ public class ScoreV1Impl extends ScoreImpl implements Score {
         return calcAccuracy();
     }
 
-    private float calcAccuracy(){
-        return (float)(s300*300 + s100*100 + s50 * 50) / (s300 + s100 + s50 + miss)*300;
+    private float calcAccuracy() {
+        return (float) (s300 * 300 + s100 * 100 + s50 * 50) / (s300 + s100 + s50 + miss) * 300;
     }
 
     @Override
@@ -114,13 +116,8 @@ public class ScoreV1Impl extends ScoreImpl implements Score {
         return this.username;
     }
 
-    public ScoreV1Impl setBeatmapId(long beatmapId) {
-        this.beatmapId = beatmapId;
-        return this;
-    }
-
     @Override
     public ScoreStatistics getStatistics() {
-        return (scoreStatistics == null) ? scoreStatistics = new ScoreStatistics(s50,s100,s300,geki,katu,miss) : scoreStatistics;
+        return (scoreStatistics == null) ? scoreStatistics = new ScoreStatistics(s50, s100, s300, geki, katu, miss) : scoreStatistics;
     }
 }

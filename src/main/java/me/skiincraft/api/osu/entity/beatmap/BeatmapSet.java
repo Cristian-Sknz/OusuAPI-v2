@@ -1,8 +1,6 @@
 package me.skiincraft.api.osu.entity.beatmap;
 
 import me.skiincraft.api.osu.entity.user.UserCompact;
-import me.skiincraft.api.osu.object.beatmap.Genre;
-import me.skiincraft.api.osu.object.beatmap.Language;
 
 import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
@@ -40,10 +38,6 @@ public interface BeatmapSet extends BeatmapSetCompact {
 
     @Nullable
     String getDescription(); //
-
-    Genre getGenre();
-
-    Language getLanguage();
 
     @Nullable
     List<UserCompact> getRecentFavourites(); //

@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class UserCompactImpl implements UserCompact {
 
-    @SerializedName("user_id")
+    @SerializedName(value = "user_id", alternate = "id")
     private final long id;
     @SerializedName("username")
     private final String username;
@@ -15,7 +15,7 @@ public class UserCompactImpl implements UserCompact {
     private final String profileColour; //
     @SerializedName("avatar_url")
     private final String avatarUrl; //
-    @SerializedName(value = "country_code", alternate = {"country"})
+    @SerializedName(value = "country_code")
     private final String countryCode;
     @SerializedName("is_active")
     private final boolean isActive; //

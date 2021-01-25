@@ -3,14 +3,15 @@ package me.skiincraft.api.osu.requests;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSearch;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSet;
+import me.skiincraft.api.osu.entity.ranking.Ranking;
 import me.skiincraft.api.osu.entity.score.BeatmapScores;
 import me.skiincraft.api.osu.entity.score.Score;
 import me.skiincraft.api.osu.entity.user.SimpleUser;
 import me.skiincraft.api.osu.entity.user.User;
-import me.skiincraft.api.osu.entity.user.UserCompact;
-import me.skiincraft.api.osu.object.beatmap.UserBeatmapType;
 import me.skiincraft.api.osu.object.beatmap.SearchFilter;
+import me.skiincraft.api.osu.object.beatmap.UserBeatmapType;
 import me.skiincraft.api.osu.object.game.GameMode;
+import me.skiincraft.api.osu.object.ranking.RankingFilter;
 import me.skiincraft.api.osu.object.score.ScoreType;
 
 import javax.annotation.Nullable;
@@ -24,7 +25,7 @@ public interface Endpoint {
 
     APIRequest<SimpleUser> getUser(long userId, GameMode mode);
 
-    default APIRequest<SimpleUser> getUser(String username, GameMode mode){
+    default APIRequest<SimpleUser> getUser(String username, GameMode mode) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 
@@ -36,12 +37,17 @@ public interface Endpoint {
 
     APIRequest<BeatmapScores> getBeatmapScores(long beatmapId);
 
-    default APIRequest<Score> getScore(GameMode mode, long scoreId){
+    default APIRequest<Score> getScore(GameMode mode, long scoreId) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 
     @Nullable
-    default APIRequest<List<User>> getUsers(long[] usersId){
+    default APIRequest<List<User>> getUsers(long[] usersId) {
+        throw new UnsupportedOperationException("This method is not compatible with this version of the API");
+
+    }
+
+    default APIRequest<Ranking> getRanking(RankingFilter filter) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 
@@ -49,11 +55,11 @@ public interface Endpoint {
 
     APIRequest<Beatmap> getBeatmap(long beatmapId);
 
-    default APIRequest<List<BeatmapSet>> getUserBeatmaps(long userId, UserBeatmapType type){
+    default APIRequest<List<BeatmapSet>> getUserBeatmaps(long userId, UserBeatmapType type) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 
-    default APIRequest<BeatmapSearch> searchBeatmaps(String search, SearchFilter filter){
+    default APIRequest<BeatmapSearch> searchBeatmaps(String search, SearchFilter filter) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 

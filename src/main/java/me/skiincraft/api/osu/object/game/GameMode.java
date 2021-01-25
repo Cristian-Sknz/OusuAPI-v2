@@ -23,6 +23,14 @@ public enum GameMode {
         return Arrays.stream(values()).filter(gm -> gm.getId() == id).findFirst().orElse(null);
     }
 
+    @Nullable
+    public static GameMode byName(String name) {
+        if (name.length() == name.replaceAll("\\D+", "").length()) {
+            return byInt(Integer.parseInt(name));
+        }
+        return Arrays.stream(values()).filter(gm -> gm.name().equalsIgnoreCase(name)).findFirst().orElse(null);
+    }
+
     public String getDescription() {
         return description;
     }

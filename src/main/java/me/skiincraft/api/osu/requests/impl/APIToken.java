@@ -2,8 +2,8 @@ package me.skiincraft.api.osu.requests.impl;
 
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.OsuAPI;
-import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.requests.Endpoint;
+import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.requests.impl.endpoint.EndpointV1;
 import me.skiincraft.api.osu.requests.impl.endpoint.EndpointV2;
 
@@ -71,5 +71,14 @@ public class APIToken implements Token {
     @Override
     public boolean isV1() {
         return v1;
+    }
+
+    @Override
+    public String toString() {
+        return "APIToken{" +
+                "token='" + token + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                ", expiresIn=" + expiresIn +
+                '}';
     }
 }

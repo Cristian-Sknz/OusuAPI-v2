@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public interface User extends SimpleUser, UserCompact {
+public interface User extends SimpleUser, UserCompact, Comparable<User> {
 
     Cover getCover();
 
@@ -108,6 +108,11 @@ public interface User extends SimpleUser, UserCompact {
     @Nullable
     default Locale getCountry() {
         return Arrays.stream(Locale.getAvailableLocales()).filter(locale -> locale.getCountry().equals(getCountryCode())).findFirst().orElse(null);
+    }
+
+    @Override
+    default int compareTo(User o) {
+        return getStatistics().compareTo(o.getStatistics());
     }
 
     /* JsonArray<?> getAccountHistory() -> "account_history"*/

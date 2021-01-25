@@ -25,4 +25,13 @@ public class OAuthApplication {
     public String getRedirectUri() {
         return redirectUri;
     }
+
+    @Override
+    public String toString() {
+        return "OAuthApplication{" +
+                "clientId=" + clientId +
+                ", clientSecret='" + clientSecret + '\'' +
+                ", redirectUri='" + redirectUri + '\'' +
+                '}';
+    }
 }

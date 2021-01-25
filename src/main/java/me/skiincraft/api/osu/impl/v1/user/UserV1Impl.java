@@ -3,7 +3,6 @@ package me.skiincraft.api.osu.impl.v1.user;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.user.SimpleUser;
-import me.skiincraft.api.osu.impl.v2.user.UserCompactImpl;
 import me.skiincraft.api.osu.object.user.Grade;
 import me.skiincraft.api.osu.object.user.UserStatistics;
 
@@ -12,7 +11,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-public class UserV1Impl extends UserCompactImpl implements SimpleUser {
+public class UserV1Impl extends UserV1CompactImpl implements SimpleUser {
 
     @SerializedName("join_date")
     private final String joinDate;
@@ -78,7 +77,7 @@ public class UserV1Impl extends UserCompactImpl implements SimpleUser {
         return pp != 0;
     }
 
-    public long getTotalHits(){
+    public long getTotalHits() {
         return count50 + count100 + count300;
     }
 
@@ -91,8 +90,8 @@ public class UserV1Impl extends UserCompactImpl implements SimpleUser {
     public UserStatistics getStatistics() {
         return (userStatistics == null)
                 ? userStatistics = new UserStatistics((int) level, pp, accuracy, ppRank, rankedScore, playcount, playtime,
-                  totalScore, getTotalHits(), null, null, isActive(),
-                  new Grade(countSS, countSSh, countS, countSh, countA), ppCountry)
+                totalScore, getTotalHits(), null, null, isActive(),
+                new Grade(countSS, countSSh, countS, countSh, countA), ppCountry, this)
                 : userStatistics;
     }
 

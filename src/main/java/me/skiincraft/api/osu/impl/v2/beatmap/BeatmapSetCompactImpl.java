@@ -1,10 +1,11 @@
 package me.skiincraft.api.osu.impl.v2.beatmap;
 
 import com.google.gson.annotations.SerializedName;
-import me.skiincraft.api.osu.entity.beatmap.BeatmapCompact;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSetCompact;
 import me.skiincraft.api.osu.object.beatmap.Approval;
 import me.skiincraft.api.osu.object.beatmap.Covers;
+import me.skiincraft.api.osu.object.beatmap.Genre;
+import me.skiincraft.api.osu.object.beatmap.Language;
 
 import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
@@ -24,24 +25,25 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
     @SerializedName("id")
     private final long beatmapSetId;
     private final long playcount;
-
     @SerializedName("ranked_date")
     private final String rankedDate;
     @SerializedName("submitted_date")
     private final String submittedDate;
-
     @SerializedName("favourite_count")
     private final long favourites;
     private final float bpm;
     private final boolean video;
     private final Covers covers;
-
     private final String source;
     @SerializedName("ranked")
     private final int status;
     private final long[] ratings;
+    @SerializedName("genre_id")
+    private final int genreId;
+    @SerializedName("language_id")
+    private final int languageId;
 
-    public BeatmapSetCompactImpl(BeatmapSetCompact compact){
+    public BeatmapSetCompactImpl(BeatmapSetCompact compact) {
         this.title = compact.getTitle();
         this.artist = compact.getArtist();
         this.titleUnicode = compact.getTitleUnicode();
@@ -50,6 +52,8 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
         this.userId = compact.getUserId();
         this.beatmapSetId = compact.getBeatmapSetId();
         this.playcount = compact.getPlayCount();
+        this.genreId = compact.getGenre().getId();
+        this.languageId = compact.getLanguage().getId();
         this.rankedDate = (compact.getRankedDate() == null) ? null : compact.getRankedDate().toString();
         this.submittedDate = (compact.getSubmittedDate() == null) ? null : compact.getSubmittedDate().toString();
         this.favourites = compact.getFavourites();
@@ -61,7 +65,7 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
         this.ratings = compact.getRatings();
     }
 
-    public BeatmapSetCompactImpl(String title, String artist, String titleUnicode, String artistUnicode, String creator, long userId, long beatmapSetId, long playcount, String rankedDate, String submittedDate, long favourites, float bpm, boolean video, Covers covers, String source, int status, long[] ratings) {
+    public BeatmapSetCompactImpl(String title, String artist, String titleUnicode, String artistUnicode, String creator, long userId, long beatmapSetId, long playcount, int genre, int language, String rankedDate, String submittedDate, long favourites, float bpm, boolean video, Covers covers, String source, int status, long[] ratings) {
         this.title = title;
         this.artist = artist;
         this.titleUnicode = titleUnicode;
@@ -70,6 +74,8 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
         this.userId = userId;
         this.beatmapSetId = beatmapSetId;
         this.playcount = playcount;
+        this.genreId = genre;
+        this.languageId = language;
         this.rankedDate = rankedDate;
         this.submittedDate = submittedDate;
         this.favourites = favourites;
@@ -139,6 +145,16 @@ public class BeatmapSetCompactImpl implements BeatmapSetCompact {
     @Override
     public Covers getCovers() {
         return covers;
+    }
+
+    @Override
+    public Genre getGenre() {
+        return Genre.getById(genreId);
+    }
+
+    @Override
+    public Language getLanguage() {
+        return Language.getById(languageId);
     }
 
     @Nullable

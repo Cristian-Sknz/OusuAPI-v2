@@ -13,4 +13,15 @@ public class ReflectionUtil {
             e.printStackTrace();
         }
     }
+
+    public static Object getField(Object item, String fieldName) {
+        try {
+            Field field = item.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            return field.get(item);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -28,7 +28,7 @@ public class OsuAPIV1 implements OsuAPI {
 
     @Override
     public List<Token> getTokens() {
-        return new ArrayList<>(tokens);
+        return tokens;
     }
 
     @Nonnull

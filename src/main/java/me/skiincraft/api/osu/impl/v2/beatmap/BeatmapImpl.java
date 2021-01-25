@@ -20,6 +20,8 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
     private final int sliders;
     @SerializedName(value = "count_spinners", alternate = {"count_spinner"})
     private final int spinners;
+    @SerializedName(value = "max_combo")
+    private final int maxCombo;
     @SerializedName(value = "drain", alternate = {"diff_drain"})
     private final float drain;
     @SerializedName(value = "hit_length")
@@ -44,9 +46,10 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
     private final FailTimes failtimes;
     private final BeatmapSetCompactImpl beatmapset;
 
+
     //v1
 
-    public BeatmapImpl(float difficultRating, long beatmapId, int gamemodeId, int totalLength, String version, float accuracy, int ar, int bpm, int circles, int sliders, int spinners, int drain, int hitlength, long beatmapSetId, long passcount, long playcount, boolean convert, boolean isScoreable, float cs, String deletedat, String lastUpdated, int status, FailTimes failtimes, BeatmapSetCompactImpl beatmapset) {
+    public BeatmapImpl(float difficultRating, long beatmapId, int gamemodeId, int totalLength, String version, float accuracy, int ar, int bpm, int circles, int sliders, int spinners, int maxCombo, int drain, int hitlength, long beatmapSetId, long passcount, long playcount, boolean convert, boolean isScoreable, float cs, String deletedat, String lastUpdated, int status, FailTimes failtimes, BeatmapSetCompactImpl beatmapset) {
         super(difficultRating, beatmapId, gamemodeId, totalLength, version);
         this.accuracy = accuracy;
         this.ar = ar;
@@ -54,6 +57,7 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
         this.circles = circles;
         this.sliders = sliders;
         this.spinners = spinners;
+        this.maxCombo = maxCombo;
         this.drain = drain;
         this.hitlength = hitlength;
         this.beatmapSetId = beatmapSetId;
@@ -97,6 +101,11 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
     @Override
     public int getSpinners() {
         return spinners;
+    }
+
+    @Override
+    public int getMaxCombo() {
+        return maxCombo;
     }
 
     @Override
@@ -165,7 +174,7 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
         return beatmapset;
     }
 
-    protected String getLastUpdatedString(){
+    protected String getLastUpdatedString() {
         return lastUpdated;
     }
 
@@ -183,12 +192,12 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
                 ", status=" + status +
                 String.format(", beatmapset={%s}",
                         "title='" + getBeatmapSet().getTitle() + '\'' +
-                        ", artist='" + getBeatmapSet().getArtist() + '\'' +
-                        ", beatmapSetId=" + getBeatmapSet().getBeatmapSetId() + '\'' +
-                        ", creator='" + getBeatmapSet().getCreator() + '\'' +
-                        ", status=" + getBeatmapSet().getStatus() +
-                        ", userId=" + getBeatmapSet().getUserId() +
-                        "playcount=" + getBeatmapSet().getPlayCount()) +
+                                ", artist='" + getBeatmapSet().getArtist() + '\'' +
+                                ", beatmapSetId=" + getBeatmapSet().getBeatmapSetId() + '\'' +
+                                ", creator='" + getBeatmapSet().getCreator() + '\'' +
+                                ", status=" + getBeatmapSet().getStatus() +
+                                ", userId=" + getBeatmapSet().getUserId() +
+                                "playcount=" + getBeatmapSet().getPlayCount()) +
                 "}";
     }
 }

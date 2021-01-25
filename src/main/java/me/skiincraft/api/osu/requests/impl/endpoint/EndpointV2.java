@@ -1,27 +1,31 @@
 package me.skiincraft.api.osu.requests.impl.endpoint;
 
 import com.google.gson.Gson;
-import me.skiincraft.api.osu.entity.user.SimpleUser;
-import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSearch;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSet;
+import me.skiincraft.api.osu.entity.ranking.Ranking;
 import me.skiincraft.api.osu.entity.score.BeatmapScores;
 import me.skiincraft.api.osu.entity.score.Score;
+import me.skiincraft.api.osu.entity.user.SimpleUser;
 import me.skiincraft.api.osu.entity.user.User;
 import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapImpl;
 import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapSearchImpl;
 import me.skiincraft.api.osu.impl.v2.beatmap.BeatmapSetImpl;
+import me.skiincraft.api.osu.impl.v2.ranking.RankingImpl;
 import me.skiincraft.api.osu.impl.v2.score.BeatmapScoresImpl;
 import me.skiincraft.api.osu.impl.v2.score.ScoreImpl;
-import me.skiincraft.api.osu.object.beatmap.UserBeatmapType;
 import me.skiincraft.api.osu.impl.v2.user.UserImpl;
 import me.skiincraft.api.osu.object.beatmap.SearchFilter;
+import me.skiincraft.api.osu.object.beatmap.UserBeatmapType;
 import me.skiincraft.api.osu.object.game.GameMode;
+import me.skiincraft.api.osu.object.ranking.RankingFilter;
 import me.skiincraft.api.osu.object.score.ScoreType;
 import me.skiincraft.api.osu.requests.APIRequest;
 import me.skiincraft.api.osu.requests.Endpoint;
+import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.requests.impl.DefaultAPIRequest;
+import me.skiincraft.api.osu.util.ReflectionUtil;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -43,7 +47,9 @@ public class EndpointV2 implements Endpoint {
         return new DefaultAPIRequest<>(URL_V2 + String.format("me/%s", mode.name().toLowerCase()),
                 (response -> {
                     try {
-                        return new Gson().fromJson(Objects.requireNonNull(response.body()).string(), UserImpl.class);
+                        UserImpl userImpl = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), UserImpl.class);
+                        ReflectionUtil.setField(ReflectionUtil.getField(userImpl, "statistics"), "user", userImpl);
+                        return userImpl;
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;
@@ -56,7 +62,9 @@ public class EndpointV2 implements Endpoint {
         return new DefaultAPIRequest<>(URL_V2 + String.format("users/%s/%s", userId, mode.name().toLowerCase()),
                 (response -> {
                     try {
-                        return new Gson().fromJson(Objects.requireNonNull(response.body()).string(), UserImpl.class);
+                        UserImpl userImpl = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), UserImpl.class);
+                        ReflectionUtil.setField(ReflectionUtil.getField(userImpl, "statistics"), "user", userImpl);
+                        return userImpl;
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;
@@ -128,7 +136,14 @@ public class EndpointV2 implements Endpoint {
         return new DefaultAPIRequest<>(URL_V2 + String.format("beatmapsets/%s", beatmapSetId),
                 (response -> {
                     try {
-                        return new Gson().fromJson(Objects.requireNonNull(response.body()).string(), BeatmapSetImpl.class);
+                        BeatmapSetImpl beatmapSet = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), BeatmapSetImpl.class);
+                        for (BeatmapImpl beatmapImpl : (BeatmapImpl[]) Objects.requireNonNull(ReflectionUtil.getField(beatmapSet, "beatmaps"))) {
+                            ReflectionUtil.setField(beatmapImpl, "beatmapset", beatmapSet);
+                        }
+                        for (BeatmapImpl beatmapImpl : (BeatmapImpl[]) Objects.requireNonNull(ReflectionUtil.getField(beatmapSet, "converts"))) {
+                            ReflectionUtil.setField(beatmapImpl, "beatmapset", beatmapSet);
+                        }
+                        return beatmapSet;
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;
@@ -155,6 +170,19 @@ public class EndpointV2 implements Endpoint {
                 (response -> {
                     try {
                         return Arrays.asList(new Gson().fromJson(Objects.requireNonNull(response.body()).string(), BeatmapSetImpl[].class));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }), token);
+    }
+
+    @Override
+    public APIRequest<Ranking> getRanking(RankingFilter filter) {
+        return new DefaultAPIRequest<>(URL_V2 + String.format("rankings/%s", filter.toQueueParameter()),
+                (response -> {
+                    try {
+                        return new Gson().fromJson(Objects.requireNonNull(response.body()).string(), RankingImpl.class);
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;

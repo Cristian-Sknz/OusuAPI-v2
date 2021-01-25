@@ -11,11 +11,11 @@ public class StaticClient {
         this.client = new OkHttpClient();
     }
 
-    public OkHttpClient getClient() {
-        return client;
-    }
-
     public static StaticClient getInstance() {
         return instance;
+    }
+
+    public OkHttpClient getClient() {
+        return client;
     }
 }

@@ -5,6 +5,7 @@ import me.skiincraft.api.osu.requests.ResponseParser;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class TokenResponseParser<T> extends ResponseParser<T> {
@@ -17,8 +18,7 @@ public class TokenResponseParser<T> extends ResponseParser<T> {
     public boolean onFailure(Response response) {
         if (response.code() >= 400) {
             try {
-                System.out.println(response.code());
-                throw new TokenException(String.format("Your credentials may be incorrect:%n%s", response.body().string()));
+                throw new TokenException(String.format("Your credentials may be incorrect:%n%s", Objects.requireNonNull(response.body()).string()));
             } catch (IOException e) {
                 e.printStackTrace();
                 return false;

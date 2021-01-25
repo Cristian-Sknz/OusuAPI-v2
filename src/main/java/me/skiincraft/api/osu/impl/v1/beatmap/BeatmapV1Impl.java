@@ -35,19 +35,19 @@ public class BeatmapV1Impl extends BeatmapImpl implements Beatmap {
 
     // Off
     @SerializedName("download_unavailable")
-    private int downloadDisabled;
-    private int storyboard;
+    private final int downloadDisabled;
+    private final int storyboard;
     @SerializedName("approved_date")
-    private String rankedDate;
+    private final String rankedDate;
     @SerializedName("submit_date")
-    private String submitDate;
-    private String tags;
-    private int genre;
+    private final String submitDate;
+    private final String tags;
+    private final int genre;
     @SerializedName("language_id")
-    private int language;
+    private final int language;
 
-    public BeatmapV1Impl(float difficultRating, long beatmapId, int gamemodeId, int totalLength, String version, float accuracy, int ar, int bpm, int circles, int sliders, int spinners, int drain, int hitlength, long beatmapSetId, long passcount, long playcount, boolean convert, boolean isScoreable, float cs, String deletedat, String lastUpdated, int status, FailTimes failtimes, BeatmapSetCompactImpl beatmapset, String title, String titleUnicode, String artist, String artistUnicode, String creator, long creatorId, long favourites, int video, String source, int downloadDisabled, int storyboard, String rankedDate, String submitDate, String tags, int genre, int language) {
-        super(difficultRating, beatmapId, gamemodeId, totalLength, version, accuracy, ar, bpm, circles, sliders, spinners, drain, hitlength, beatmapSetId, passcount, playcount, convert, isScoreable, cs, deletedat, lastUpdated, status, failtimes, beatmapset);
+    public BeatmapV1Impl(float difficultRating, long beatmapId, int gamemodeId, int totalLength, String version, float accuracy, int ar, int bpm, int circles, int sliders, int spinners, int maxCombo, int drain, int hitlength, long beatmapSetId, long passcount, long playcount, boolean convert, boolean isScoreable, float cs, String deletedat, String lastUpdated, int status, FailTimes failtimes, BeatmapSetCompactImpl beatmapset, String title, String titleUnicode, String artist, String artistUnicode, String creator, long creatorId, long favourites, int video, String source, int downloadDisabled, int storyboard, String rankedDate, String submitDate, String tags, int genre, int language) {
+        super(difficultRating, beatmapId, gamemodeId, totalLength, version, accuracy, ar, bpm, circles, sliders, spinners, maxCombo, drain, hitlength, beatmapSetId, passcount, playcount, convert, isScoreable, cs, deletedat, lastUpdated, status, failtimes, beatmapset);
         this.title = title;
         this.titleUnicode = titleUnicode;
         this.artist = artist;
@@ -68,7 +68,7 @@ public class BeatmapV1Impl extends BeatmapImpl implements Beatmap {
 
     @Override
     public BeatmapSetCompact getBeatmapSet() {
-        return new BeatmapSetCompactImpl(title,artist,titleUnicode,artistUnicode,creator,creatorId, getBeatmapSetId(), getPassCount(), rankedDate, submitDate ,favourites, getBPM(), video == 1, new Covers(getBeatmapSetId()), source, getStatus().getId(), new long[0]);
+        return new BeatmapSetCompactImpl(title, artist, titleUnicode, artistUnicode, creator, creatorId, getBeatmapSetId(), getPassCount(), getGenre().getId(), getLanguage().getId(), toString(getRankedDate()), toString(getSubmitDate()), favourites, getBPM(), video == 1, new Covers(getBeatmapSetId()), source, getStatus().getId(), new long[0]);
     }
 
     public int getDownloadDisabled() {
@@ -81,15 +81,22 @@ public class BeatmapV1Impl extends BeatmapImpl implements Beatmap {
 
     @Override
     public OffsetDateTime getLastUpdated() {
-        return LocalDateTime.parse(getLastUpdatedString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atOffset(ZoneOffset.UTC);
+        return (getLastUpdatedString() == null) ? null : LocalDateTime.parse(getLastUpdatedString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atOffset(ZoneOffset.UTC);
     }
 
     public OffsetDateTime getRankedDate() {
-        return LocalDateTime.parse(rankedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atOffset(ZoneOffset.UTC);
+        return (rankedDate == null) ? null : LocalDateTime.parse(rankedDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atOffset(ZoneOffset.UTC);
     }
 
     public OffsetDateTime getSubmitDate() {
-        return LocalDateTime.parse(submitDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atOffset(ZoneOffset.UTC);
+        return (submitDate == null) ? null : LocalDateTime.parse(submitDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).atOffset(ZoneOffset.UTC);
+    }
+
+    private <T> String toString(T t) {
+        if (t == null) {
+            return null;
+        }
+        return t.toString();
     }
 
     public String getTags() {

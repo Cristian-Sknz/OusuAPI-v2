@@ -6,12 +6,12 @@ import me.skiincraft.api.osu.object.game.GameMode;
 
 public class BeatmapCompactImpl implements BeatmapCompact {
 
-    @SerializedName(value = "difficulty_rating", alternate = {"rating"})
+    @SerializedName(value = "difficulty_rating", alternate = "difficultyrating")
     private final float difficultRating;
-    @SerializedName(value = "id", alternate= {"beatmap_id"})
+    @SerializedName(value = "id", alternate = {"beatmap_id"})
     private final long beatmapId;
-    @SerializedName(value = "mode_int", alternate = {"mode"})
-    private final int gamemodeId;
+    @SerializedName(value = "mode_int", alternate = "mode")
+    private final String gamemodeId;
     @SerializedName("total_length")
     private final int totalLength;
     private final String version;
@@ -19,7 +19,7 @@ public class BeatmapCompactImpl implements BeatmapCompact {
     public BeatmapCompactImpl(float difficultRating, long beatmapId, int gamemodeId, int totalLength, String version) {
         this.difficultRating = difficultRating;
         this.beatmapId = beatmapId;
-        this.gamemodeId = gamemodeId;
+        this.gamemodeId = String.valueOf(gamemodeId);
         this.totalLength = totalLength;
         this.version = version;
     }
@@ -36,7 +36,7 @@ public class BeatmapCompactImpl implements BeatmapCompact {
 
     @Override
     public GameMode getGameMode() {
-        return GameMode.byInt(gamemodeId);
+        return GameMode.byName(gamemodeId);
     }
 
     @Override

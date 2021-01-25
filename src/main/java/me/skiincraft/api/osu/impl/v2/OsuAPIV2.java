@@ -5,12 +5,14 @@ import me.skiincraft.api.osu.OsuAPI;
 import me.skiincraft.api.osu.exceptions.TokenException;
 import me.skiincraft.api.osu.object.OAuthApplication;
 import me.skiincraft.api.osu.requests.APIRequest;
-import me.skiincraft.api.osu.util.StaticClient;
 import me.skiincraft.api.osu.requests.Token;
-import me.skiincraft.api.osu.requests.impl.*;
 import me.skiincraft.api.osu.requests.impl.APIToken;
+import me.skiincraft.api.osu.requests.impl.DefaultAPIRequest;
+import me.skiincraft.api.osu.requests.impl.FakeAPIRequest;
+import me.skiincraft.api.osu.requests.impl.TokenResponseParser;
 import me.skiincraft.api.osu.requests.impl.endpoint.EndpointV2;
 import me.skiincraft.api.osu.util.ReflectionUtil;
+import me.skiincraft.api.osu.util.StaticClient;
 import okhttp3.*;
 
 import javax.annotation.Nonnull;
@@ -44,7 +46,7 @@ public class OsuAPIV2 implements OsuAPI {
         DefaultAPIRequest<Token> token = new DefaultAPIRequest<>(request, this);
         Function<Response, Token> function = response -> {
             try {
-                Token item = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), Token.class);
+                Token item = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), APIToken.class);
                 ReflectionUtil.setField(item, "api", this);
                 ReflectionUtil.setField(item, "endpoint", new EndpointV2(item));
 
@@ -61,7 +63,7 @@ public class OsuAPIV2 implements OsuAPI {
     }
 
     public APIRequest<Boolean> checkToken(@Nonnull String bearerToken) throws TokenException {
-        if (bearerToken.length() < 800)
+        if (bearerToken.length() < 700)
             throw new TokenException("Your token is not valid as it has fewer characters than normal.");
 
         Request request = new Request.Builder()
@@ -74,7 +76,7 @@ public class OsuAPIV2 implements OsuAPI {
     }
 
     public APIRequest<Token> resumeToken(@Nonnull String bearerToken) throws TokenException {
-        if (bearerToken.length() < 800)
+        if (bearerToken.length() < 700)
             throw new TokenException("Your token is not valid as it has fewer characters than normal.");
 
         if (!checkToken(bearerToken).get()) {
@@ -89,8 +91,39 @@ public class OsuAPIV2 implements OsuAPI {
     }
 
     @Override
+    public APIRequest<Token> refreshToken(@Nonnull String refreshToken) {
+        if (refreshToken.length() < 600)
+            throw new TokenException("Your code is not valid, as it has fewer characters than normal.");
+
+        Request request = new Request.Builder()
+                .url("https://osu.ppy.sh/oauth/token")
+                .method("POST", makeRefreshAuthUrl(refreshToken))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        DefaultAPIRequest<Token> token = new DefaultAPIRequest<>(request, this);
+        Function<Response, Token> function = response -> {
+            try {
+                Token item = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), Token.class);
+                ReflectionUtil.setField(item, "api", this);
+                ReflectionUtil.setField(item, "endpoint", new EndpointV2(item));
+
+                tokens.add(item);
+                return item;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        };
+        token.setFunction(function);
+        token.setResponseParser((r) -> new TokenResponseParser<>(r, null));
+        return token;
+    }
+
+    @Override
     public List<Token> getTokens() {
-        return new ArrayList<>(tokens);
+        return tokens;
     }
 
     public OAuthApplication getAuthApplication() {
@@ -103,11 +136,21 @@ public class OsuAPIV2 implements OsuAPI {
 
     private RequestBody makeAuthUrl(String code) {
         return new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("client_id", String.valueOf(getAuthApplication().getClientId()))
+                .addFormDataPart("client_secret", getAuthApplication().getClientSecret())
+                .addFormDataPart("code", code)
                 .addFormDataPart("grant_type", "authorization_code")
+                .addFormDataPart("redirect_uri", getAuthApplication().getRedirectUri())
+                .build();
+    }
+
+    private RequestBody makeRefreshAuthUrl(String refreshToken) {
+        return new MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("grant_type", "refresh_token")
                 .addFormDataPart("client_id", String.valueOf(getAuthApplication().getClientId()))
                 .addFormDataPart("client_secret", getAuthApplication().getClientSecret())
                 .addFormDataPart("redirect_uri", getAuthApplication().getRedirectUri())
-                .addFormDataPart("code", code)
+                .addFormDataPart("refresh_token", refreshToken)
                 .build();
     }
 }

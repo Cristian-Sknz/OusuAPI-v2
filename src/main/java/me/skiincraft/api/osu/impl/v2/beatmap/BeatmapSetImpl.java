@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet {
 
@@ -31,10 +32,6 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
     private final String lastUpdated;
     @SerializedName("legacy_thread_url")
     private final String legacyThreadUrl;
-    @SerializedName("ranked_date")
-    private final String rankedDate;
-    @SerializedName("submitted_date")
-    private final String submittedDate;
     private final String tags;
 
     private final BeatmapImpl[] beatmaps;
@@ -53,8 +50,8 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
     @SerializedName("nominations_summary")
     private final Map<String, Integer> nominationsSummary;
 
-    public BeatmapSetImpl(String title, String artist, String titleUnicode, String artistUnicode, String creator, long userId, long beatmapSetId, long playcount, long favourites, int bpm, boolean video, Covers covers, String source, int status, long[] ratings, boolean canBeHyped, Map<String, String> downloaddisabled, boolean discussionenabled, boolean discussionlocked, boolean storyboard, boolean isScoreable, String lastUpdated, String legacyThreadUrl, String rankedDate, String submittedDate, String tags, BeatmapImpl[] beatmaps, BeatmapImpl[] converts, Map<String, String> description, Map<String, String> genre, Map<String, String> language, UserCompactImpl[] recentFavourites, UserCompactImpl user, Map<String, Integer> nominationsSummary) {
-        super(title, artist, titleUnicode, artistUnicode, creator, userId, beatmapSetId, playcount, rankedDate, submittedDate,favourites, bpm, video, covers, source, status, ratings);
+    public BeatmapSetImpl(String title, String artist, String titleUnicode, String artistUnicode, String creator, long userId, long beatmapSetId, long playcount, int genreId, int languageId, long favourites, int bpm, boolean video, Covers covers, String source, int status, long[] ratings, boolean canBeHyped, Map<String, String> downloaddisabled, boolean discussionenabled, boolean discussionlocked, boolean storyboard, boolean isScoreable, String lastUpdated, String legacyThreadUrl, String rankedDate, String submittedDate, String tags, BeatmapImpl[] beatmaps, BeatmapImpl[] converts, Map<String, String> description, Map<String, String> genre, Map<String, String> language, UserCompactImpl[] recentFavourites, UserCompactImpl user, Map<String, Integer> nominationsSummary) {
+        super(title, artist, titleUnicode, artistUnicode, creator, userId, beatmapSetId, playcount, genreId, languageId, rankedDate, submittedDate, favourites, bpm, video, covers, source, status, ratings);
         this.canBeHyped = canBeHyped;
         this.downloaddisabled = downloaddisabled;
         this.discussionenabled = discussionenabled;
@@ -63,8 +60,6 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
         this.isScoreable = isScoreable;
         this.lastUpdated = lastUpdated;
         this.legacyThreadUrl = legacyThreadUrl;
-        this.rankedDate = rankedDate;
-        this.submittedDate = submittedDate;
         this.tags = tags;
         this.beatmaps = beatmaps;
         this.converts = converts;
@@ -124,12 +119,12 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
 
     @Override
     public List<Beatmap> getBeatmaps() {
-        return new ArrayList<>(Arrays.asList(beatmaps));
+        return Arrays.stream(beatmaps).sorted().collect(Collectors.toList());
     }
 
     @Override
     public List<Beatmap> getConverts() {
-        return new ArrayList<>(Arrays.asList(converts));
+        return Arrays.stream(converts).sorted().collect(Collectors.toList());
     }
 
     @Override

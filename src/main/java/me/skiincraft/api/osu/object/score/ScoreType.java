@@ -10,7 +10,7 @@ public enum ScoreType {
         this.apiV1Endpoint = apiV1Endpoint;
     }
 
-    public String getNameToLowerCase(){
+    public String getNameToLowerCase() {
         return name().toLowerCase();
     }
 

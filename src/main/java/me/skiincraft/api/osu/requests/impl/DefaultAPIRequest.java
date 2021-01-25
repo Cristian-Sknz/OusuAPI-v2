@@ -1,9 +1,9 @@
 package me.skiincraft.api.osu.requests.impl;
 
 import me.skiincraft.api.osu.OsuAPI;
-import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.requests.APIRequest;
 import me.skiincraft.api.osu.requests.ResponseParser;
+import me.skiincraft.api.osu.requests.Token;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

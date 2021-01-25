@@ -20,6 +20,8 @@ public interface Beatmap extends BeatmapCompact {
 
     int getSpinners();
 
+    int getMaxCombo();
+
     float getDrain();
 
     int getHitLength();
@@ -52,4 +54,3 @@ public interface Beatmap extends BeatmapCompact {
     }
 
 }
-

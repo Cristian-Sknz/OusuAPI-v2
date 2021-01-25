@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BeatmapSetV1Impl extends BeatmapSetCompactImpl implements BeatmapSet {
 
@@ -80,7 +81,7 @@ public class BeatmapSetV1Impl extends BeatmapSetCompactImpl implements BeatmapSe
 
     @Override
     public List<Beatmap> getBeatmaps() {
-        return Arrays.asList(beatmaps);
+        return Arrays.stream(beatmaps).sorted().collect(Collectors.toList());
     }
 
     @Override
@@ -126,7 +127,7 @@ public class BeatmapSetV1Impl extends BeatmapSetCompactImpl implements BeatmapSe
     @Override
     public String toString() {
         return "BeatmapSet{" +
-                "title='"  + getTitle() + '\''+
+                "title='" + getTitle() + '\'' +
                 ", artist='" + getArtist() + '\'' +
                 ", beatmapSetId=" + getBeatmapSetId() +
                 ", creator='" + getCreator() + '\'' +
