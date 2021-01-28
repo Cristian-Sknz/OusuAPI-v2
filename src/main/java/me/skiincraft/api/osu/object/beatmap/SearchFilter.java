@@ -89,7 +89,7 @@ public class SearchFilter {
                 (isAny(genre) ? "" : "&g=" + genre.getId()) +
                 (isAny(language) ? "" : "&l=" + language.getId()) +
                 ((video && storyboard) ? "&e=video.storyboard" : (video) ? "&e=video" : (storyboard) ? "&e=storyboard" : "") +
-                ((sort == SearchSort.RATING && sortType >= SearchSort.DECREMENT) ? "" : "&sort=" + sort.getParameter(sortType));
+                ((sort == SearchSort.RANKED && sortType >= SearchSort.DECREMENT) ? "" : "&sort=" + sort.getParameter(sortType));
     }
 
     private <E extends Enum<E>> boolean isAny(Enum<E> enums) {
