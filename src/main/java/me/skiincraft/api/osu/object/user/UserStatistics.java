@@ -32,7 +32,7 @@ public class UserStatistics implements Comparable<UserStatistics> {
     private final Long replaysWatcheds;
     @SerializedName("is_ranked")
     private final boolean isRanked;
-    @SerializedName("grade_count")
+    @SerializedName("grade_counts")
     private final Grade grade;
     private final Map<String, Integer> rank;
     private final UserCompactImpl user;
