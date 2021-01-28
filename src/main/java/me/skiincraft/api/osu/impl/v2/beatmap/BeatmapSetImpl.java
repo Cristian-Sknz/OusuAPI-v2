@@ -11,10 +11,7 @@ import me.skiincraft.api.osu.object.beatmap.Language;
 
 import javax.annotation.Nullable;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet {
@@ -134,12 +131,12 @@ public class BeatmapSetImpl extends BeatmapSetCompactImpl implements BeatmapSet 
 
     @Override
     public Genre getGenre() {
-        return Genre.getById(Integer.parseInt(genre.get("id")));
+        return Genre.getById((Objects.nonNull(genre)) ? Integer.parseInt(genre.get("id")): 1);
     }
 
     @Override
     public Language getLanguage() {
-        return Language.getById(Integer.parseInt(language.get("id")));
+        return Language.getById((Objects.nonNull(language)) ? Integer.parseInt(language.get("id")): 1);
     }
 
     @Override
