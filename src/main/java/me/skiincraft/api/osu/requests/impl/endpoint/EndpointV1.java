@@ -64,8 +64,8 @@ public class EndpointV1 implements Endpoint {
 
     @Override
     public APIRequest<List<Score>> getUserScore(String username, ScoreType type) {
-        if (type.getAPIV1Endpoint() == null){
-            return Endpoint.super.getUserScore(username, type);
+        if (type.getAPIV1Endpoint() == null) {
+            throw new UnsupportedOperationException("This method is not compatible with this version of the API");
         }
         return new DefaultAPIRequest<>(new Request
                 .Builder().url(URL_V1 + type.getAPIV1Endpoint() + String.format("?u=%s&k=%s", username, token.getToken())).build(),
@@ -121,6 +121,13 @@ public class EndpointV1 implements Endpoint {
                         return null;
                     }
                 }), token);
+    }
+
+    @Override
+    public APIRequest<Long> getUserId(String username) {
+        String usersUrl = "https://osu.ppy.sh/users/";
+        return new DefaultAPIRequest<>(new Request.Builder().url(usersUrl + username).build(),
+                (response -> Long.parseLong(response.request().url().toString().replace(usersUrl, ""))), token);
     }
 
     private String checkResponse(Response response) throws IOException {

@@ -26,6 +26,7 @@ import me.skiincraft.api.osu.requests.Endpoint;
 import me.skiincraft.api.osu.requests.Token;
 import me.skiincraft.api.osu.requests.impl.DefaultAPIRequest;
 import me.skiincraft.api.osu.util.ReflectionUtil;
+import okhttp3.Request;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -73,6 +74,11 @@ public class EndpointV2 implements Endpoint {
     }
 
     @Override
+    public APIRequest<SimpleUser> getUser(String username, GameMode mode) {
+        return getUser(getUserId(username).get(), mode);
+    }
+
+    @Override
     public APIRequest<List<Score>> getUserScore(long userId, ScoreType type) {
         return new DefaultAPIRequest<>(URL_V2 + String.format("users/%s/scores/%s", userId, type.getNameToLowerCase()),
                 (response -> {
@@ -83,6 +89,11 @@ public class EndpointV2 implements Endpoint {
                         return null;
                     }
                 }), token);
+    }
+
+    @Override
+    public APIRequest<List<Score>> getUserScore(String username, ScoreType type) {
+        return getUserScore(getUserId(username).get(), type);
     }
 
     @Override
@@ -115,20 +126,6 @@ public class EndpointV2 implements Endpoint {
     @Override
     public APIRequest<List<User>> getUsers(long[] usersId) {
         return null;
-        /*
-        String users = Arrays.stream(usersId).mapToObj(String::valueOf).collect(Collectors.joining(","));
-        return new DefaultAPIRequest<List<User>>(URL_V2 + String.format("users?ids[]=%s", users),
-                (response -> {
-                    try {
-                        String resposta = Objects.requireNonNull(response.body()).string();
-                        System.out.println(resposta);
-                        return Arrays.asList(new Gson().fromJson(resposta, UserImpl[].class));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return null;
-                    }
-                }), token);
-         */
     }
 
     @Override
@@ -178,6 +175,11 @@ public class EndpointV2 implements Endpoint {
     }
 
     @Override
+    public APIRequest<List<BeatmapSet>> getUserBeatmaps(String username, UserBeatmapType type) {
+        return getUserBeatmaps(getUserId(username).get(), type);
+    }
+
+    @Override
     public APIRequest<Ranking> getRanking(RankingFilter filter) {
         return new DefaultAPIRequest<>(URL_V2 + String.format("rankings/%s", filter.toQueueParameter()),
                 (response -> {
@@ -203,4 +205,10 @@ public class EndpointV2 implements Endpoint {
                 }), token);
     }
 
+    @Override
+    public APIRequest<Long> getUserId(String username) {
+        String usersUrl = "https://osu.ppy.sh/users/";
+        return new DefaultAPIRequest<>(new Request.Builder().url(usersUrl + username).build(),
+                (response -> Long.parseLong(response.request().url().toString().replace(usersUrl, ""))), token);
+    }
 }

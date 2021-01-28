@@ -25,15 +25,11 @@ public interface Endpoint {
 
     APIRequest<SimpleUser> getUser(long userId, GameMode mode);
 
-    default APIRequest<SimpleUser> getUser(String username, GameMode mode) {
-        throw new UnsupportedOperationException("This method is not compatible with this version of the API");
-    }
+    APIRequest<SimpleUser> getUser(String username, GameMode mode);
 
     APIRequest<List<Score>> getUserScore(long userId, ScoreType type);
 
-    default APIRequest<List<Score>> getUserScore(String username, ScoreType type) {
-        throw new UnsupportedOperationException("This method is not compatible with this version of the API");
-    }
+    APIRequest<List<Score>> getUserScore(String username, ScoreType type);
 
     APIRequest<BeatmapScores> getBeatmapScores(long beatmapId);
 
@@ -59,8 +55,14 @@ public interface Endpoint {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 
+    default APIRequest<List<BeatmapSet>> getUserBeatmaps(String username, UserBeatmapType type) {
+        throw new UnsupportedOperationException("This method is not compatible with this version of the API");
+    }
+
     default APIRequest<BeatmapSearch> searchBeatmaps(String search, SearchFilter filter) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
+
+    APIRequest<Long> getUserId(String username);
 
 }
