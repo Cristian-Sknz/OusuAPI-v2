@@ -4,6 +4,7 @@ import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSetCompact;
 import me.skiincraft.api.osu.entity.user.UserCompact;
 import me.skiincraft.api.osu.object.beatmap.Mods;
+import me.skiincraft.api.osu.object.score.ScoreRank;
 import me.skiincraft.api.osu.object.score.ScoreStatistics;
 
 import javax.annotation.Nullable;
@@ -48,6 +49,10 @@ public interface Score extends Comparable<Score> {
 
     String getRank();
 
+    default ScoreRank getScoreRank(){
+        return ScoreRank.getScore(getRank());
+    }
+
     OffsetDateTime getCreatedDate(); //
 
     boolean hasReplay();
@@ -59,6 +64,10 @@ public interface Score extends Comparable<Score> {
     BeatmapSetCompact getBeatmapSet();
 
     UserCompact getUser();
+
+    default String getScoreUrl(){
+        return String.format("https://osu.ppy.sh/scores/%s/%s", (getBeatmap() == null) ? "osu" : getBeatmap().getGameMode().name(), getScoreId()).toLowerCase();
+    }
 
     @Nullable
     Object getWeight();
