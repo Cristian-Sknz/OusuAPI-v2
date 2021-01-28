@@ -105,7 +105,7 @@ public class OsuAPIV2 implements OsuAPI {
         DefaultAPIRequest<Token> token = new DefaultAPIRequest<>(request, this);
         Function<Response, Token> function = response -> {
             try {
-                Token item = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), Token.class);
+                Token item = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), APIToken.class);
                 ReflectionUtil.setField(item, "api", this);
                 ReflectionUtil.setField(item, "endpoint", new EndpointV2(item));
 
