@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'me.skiincraft'
-version '1.0-SNAPSHOT'
+version '2021.0127.0'
 
 compileJava.options.encoding = 'UTF-8'
 
