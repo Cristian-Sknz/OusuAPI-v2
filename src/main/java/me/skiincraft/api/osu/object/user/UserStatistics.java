@@ -7,6 +7,7 @@ import me.skiincraft.api.osu.impl.v2.user.UserCompactImpl;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserStatistics implements Comparable<UserStatistics> {
 
@@ -136,11 +137,11 @@ public class UserStatistics implements Comparable<UserStatistics> {
     }
 
     public long getGlobalRank() {
-        return rank.get("global");
+        return (Objects.isNull(rank)) ? getPpRank() : rank.get("global");
     }
 
     public long getCountryRank() {
-        return rank.get("country");
+        return (Objects.isNull(rank)) ? 0 : rank.get("country");
     }
 
     public UserCompact getUser() {

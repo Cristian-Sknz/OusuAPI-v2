@@ -82,6 +82,8 @@ public class ScoreImpl implements Score {
 
     @Override
     public Mods[] getMods() {
+        if (mods == null)
+            return new Mods[0];
         return Mods.get(mods);
     }
 

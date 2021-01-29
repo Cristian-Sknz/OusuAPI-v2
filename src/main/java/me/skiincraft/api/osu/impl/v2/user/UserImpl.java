@@ -205,9 +205,11 @@ public class UserImpl extends UserCompactImpl implements User {
         return website;
     }
 
-    @Nullable
     @Override
     public PlayStyle[] getPlayStyles() {
+        if (playstyle == null)
+            return new PlayStyle[0];
+
         return Arrays.stream(PlayStyle.values()).filter(ps -> {
             for (String play : playstyle) {
                 if (play.equalsIgnoreCase(ps.name())) {
