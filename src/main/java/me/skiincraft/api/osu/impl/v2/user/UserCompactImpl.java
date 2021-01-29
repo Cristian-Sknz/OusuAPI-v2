@@ -57,7 +57,7 @@ public class UserCompactImpl implements UserCompact {
 
     @Override
     public String getAvatarURL() {
-        return avatarUrl;
+        return ((avatarUrl.contains("avatar-guest"))? "https://osu.ppy.sh" : "") + avatarUrl;
     }
 
     @Override
