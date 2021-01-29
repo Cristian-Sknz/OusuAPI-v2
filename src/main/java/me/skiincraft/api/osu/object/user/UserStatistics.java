@@ -137,11 +137,17 @@ public class UserStatistics implements Comparable<UserStatistics> {
     }
 
     public long getGlobalRank() {
-        return (Objects.isNull(rank)) ? getPpRank() : rank.get("global");
+        return (Objects.isNull(rank) || !rank.containsKey("global")) ? getPpRank() : checkNull(rank.get("global"));
     }
 
     public long getCountryRank() {
-        return (Objects.isNull(rank)) ? 0 : rank.get("country");
+        return (Objects.isNull(rank) || !rank.containsKey("country")) ? 0 : checkNull(rank.get("country"));
+    }
+
+    private int checkNull(Integer value){
+        if (value == null)
+            return 0;
+        return value;
     }
 
     public UserCompact getUser() {
