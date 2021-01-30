@@ -33,6 +33,14 @@ public interface Endpoint {
 
     APIRequest<BeatmapScores> getBeatmapScores(long beatmapId);
 
+    default APIRequest<List<Score>> getUserScore(long userId, long beatmapId){
+        throw new UnsupportedOperationException("This method is not compatible with this version of the API");
+    }
+
+    default APIRequest<List<Score>> getUserScore(String username, long beatmapId) {
+        throw new UnsupportedOperationException("This method is not compatible with this version of the API");
+    }
+
     default APIRequest<Score> getScore(GameMode mode, long scoreId) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }

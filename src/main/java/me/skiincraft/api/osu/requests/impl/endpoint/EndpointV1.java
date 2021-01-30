@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class EndpointV1 implements Endpoint {
 
@@ -72,6 +73,27 @@ public class EndpointV1 implements Endpoint {
                 (response -> {
                     try {
                         return Arrays.asList(new Gson().fromJson(checkResponse(response), ScoreV1Impl[].class));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }), token);
+    }
+
+    @Override
+    public APIRequest<List<Score>> getUserScore(long userId, long beatmapId) {
+        return getUserScore(String.valueOf(userId), beatmapId);
+    }
+
+    @Override
+    public APIRequest<List<Score>> getUserScore(String username, long beatmapId) {
+        return new DefaultAPIRequest<>(new Request
+                .Builder().url(URL_V1 + "get_scores" + String.format("?u=%s&b=%s&k=%s", username, beatmapId, token.getToken())).build(),
+                (response -> {
+                    try {
+                        return Arrays.stream(new Gson().fromJson(checkResponse(response), ScoreV1Impl[].class))
+                                .map(sc -> sc.setBeatmapId(beatmapId))
+                                .collect(Collectors.toList());
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;
