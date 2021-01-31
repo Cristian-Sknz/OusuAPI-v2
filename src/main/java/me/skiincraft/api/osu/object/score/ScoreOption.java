@@ -1,9 +1,10 @@
 package me.skiincraft.api.osu.object.score;
 
 import me.skiincraft.api.osu.entity.other.Option;
+import me.skiincraft.api.osu.entity.score.Score;
 import me.skiincraft.api.osu.object.game.GameMode;
 
-public class ScoreOption implements Option {
+public class ScoreOption implements Option<Score> {
 
     private ScoreType type;
     private GameMode gameMode;
@@ -81,6 +82,11 @@ public class ScoreOption implements Option {
         return "limit=" + limit + ((type == ScoreType.RECENT && includeFails) ? "&include_fails=" + getIncludeFails() : "") +
                 ((gameMode != null) ? "&mode=" + gameMode.name().toLowerCase() : "") +
                 ((offset != 0) ? "&offset=" + offset : "");
+    }
+
+    @Override
+    public Class<Score> getOptionType() {
+        return Score.class;
     }
 
     public String toV1QueueParameter() {

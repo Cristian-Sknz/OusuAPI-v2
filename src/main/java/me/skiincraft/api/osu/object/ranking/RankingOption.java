@@ -1,9 +1,10 @@
 package me.skiincraft.api.osu.object.ranking;
 
 import me.skiincraft.api.osu.entity.other.Option;
+import me.skiincraft.api.osu.entity.ranking.Ranking;
 import me.skiincraft.api.osu.object.game.GameMode;
 
-public class RankingOption implements Option {
+public class RankingOption implements Option<Ranking> {
 
     private final RankingType type;
     private GameMode gamemode;
@@ -65,6 +66,11 @@ public class RankingOption implements Option {
                 "?filter=" + filter.name().toLowerCase() + "&cursor=" + cursor + ((type == RankingType.Performance && country != null)
                         ? "&country=" + country
                         : (type == RankingType.Charts && spotlight != -1) ? "&spotlight=" + spotlight : ""));
+    }
+
+    @Override
+    public Class<Ranking> getOptionType() {
+        return Ranking.class;
     }
 
     public int getCursor() {

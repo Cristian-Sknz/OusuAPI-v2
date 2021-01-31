@@ -1,9 +1,10 @@
 package me.skiincraft.api.osu.object.beatmap;
 
+import me.skiincraft.api.osu.entity.beatmap.BeatmapSet;
 import me.skiincraft.api.osu.entity.other.Option;
 import me.skiincraft.api.osu.object.game.GameMode;
 
-public class SearchOption implements Option {
+public class SearchOption implements Option<BeatmapSet> {
 
     private GameMode gameMode = GameMode.Osu;
     private Approval category = Approval.ANY;
@@ -109,6 +110,11 @@ public class SearchOption implements Option {
                 ", storyboard=" + storyboard +
                 ", sort=" + sort.getParameter(sortType) +
                 '}';
+    }
+
+    @Override
+    public Class<BeatmapSet> getOptionType() {
+        return BeatmapSet.class;
     }
 
     public enum SearchSort {
