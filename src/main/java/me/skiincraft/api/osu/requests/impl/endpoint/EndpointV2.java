@@ -16,10 +16,11 @@ import me.skiincraft.api.osu.impl.v2.ranking.RankingImpl;
 import me.skiincraft.api.osu.impl.v2.score.BeatmapScoresImpl;
 import me.skiincraft.api.osu.impl.v2.score.ScoreImpl;
 import me.skiincraft.api.osu.impl.v2.user.UserImpl;
-import me.skiincraft.api.osu.object.beatmap.SearchFilter;
+import me.skiincraft.api.osu.object.beatmap.SearchOption;
 import me.skiincraft.api.osu.object.beatmap.UserBeatmapType;
 import me.skiincraft.api.osu.object.game.GameMode;
-import me.skiincraft.api.osu.object.ranking.RankingFilter;
+import me.skiincraft.api.osu.object.ranking.RankingOption;
+import me.skiincraft.api.osu.object.score.ScoreOption;
 import me.skiincraft.api.osu.object.score.ScoreType;
 import me.skiincraft.api.osu.requests.APIRequest;
 import me.skiincraft.api.osu.requests.Endpoint;
@@ -79,8 +80,8 @@ public class EndpointV2 implements Endpoint {
     }
 
     @Override
-    public APIRequest<List<Score>> getUserScore(long userId, ScoreType type) {
-        return new DefaultAPIRequest<>(URL_V2 + String.format("users/%s/scores/%s", userId, type.getNameToLowerCase()),
+    public APIRequest<List<Score>> getUserScore(long userId, ScoreOption option) {
+        return new DefaultAPIRequest<>(URL_V2 + String.format("users/%s/scores/%s?%s", userId, option.getType().getNameToLowerCase(), option.toQueueParameter()),
                 (response -> {
                     try {
                         return Arrays.asList(new Gson().fromJson(Objects.requireNonNull(response.body()).string(), ScoreImpl[].class));
@@ -92,8 +93,8 @@ public class EndpointV2 implements Endpoint {
     }
 
     @Override
-    public APIRequest<List<Score>> getUserScore(String username, ScoreType type) {
-        return getUserScore(getUserId(username).get(), type);
+    public APIRequest<List<Score>> getUserScore(String username, ScoreOption option) {
+        return getUserScore(getUserId(username).get(), option);
     }
 
     @Override
@@ -180,7 +181,7 @@ public class EndpointV2 implements Endpoint {
     }
 
     @Override
-    public APIRequest<Ranking> getRanking(RankingFilter filter) {
+    public APIRequest<Ranking> getRanking(RankingOption filter) {
         return new DefaultAPIRequest<>(URL_V2 + String.format("rankings/%s", filter.toQueueParameter()),
                 (response -> {
                     try {
@@ -193,7 +194,7 @@ public class EndpointV2 implements Endpoint {
     }
 
     @Override
-    public APIRequest<BeatmapSearch> searchBeatmaps(String search, SearchFilter filter) {
+    public APIRequest<BeatmapSearch> searchBeatmaps(String search, SearchOption filter) {
         return new DefaultAPIRequest<>(URL_V2 + String.format("beatmapsets/search/?q=%s&%s", search, filter.toQueueParameter()),
                 (response -> {
                     try {

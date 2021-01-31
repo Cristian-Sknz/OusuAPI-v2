@@ -8,11 +8,11 @@ import me.skiincraft.api.osu.entity.score.BeatmapScores;
 import me.skiincraft.api.osu.entity.score.Score;
 import me.skiincraft.api.osu.entity.user.SimpleUser;
 import me.skiincraft.api.osu.entity.user.User;
-import me.skiincraft.api.osu.object.beatmap.SearchFilter;
+import me.skiincraft.api.osu.object.beatmap.SearchOption;
 import me.skiincraft.api.osu.object.beatmap.UserBeatmapType;
 import me.skiincraft.api.osu.object.game.GameMode;
-import me.skiincraft.api.osu.object.ranking.RankingFilter;
-import me.skiincraft.api.osu.object.score.ScoreType;
+import me.skiincraft.api.osu.object.ranking.RankingOption;
+import me.skiincraft.api.osu.object.score.ScoreOption;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -27,9 +27,9 @@ public interface Endpoint {
 
     APIRequest<SimpleUser> getUser(String username, GameMode mode);
 
-    APIRequest<List<Score>> getUserScore(long userId, ScoreType type);
+    APIRequest<List<Score>> getUserScore(long userId, ScoreOption option);
 
-    APIRequest<List<Score>> getUserScore(String username, ScoreType type);
+    APIRequest<List<Score>> getUserScore(String username, ScoreOption option);
 
     APIRequest<BeatmapScores> getBeatmapScores(long beatmapId);
 
@@ -51,7 +51,7 @@ public interface Endpoint {
 
     }
 
-    default APIRequest<Ranking> getRanking(RankingFilter filter) {
+    default APIRequest<Ranking> getRanking(RankingOption filter) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 
@@ -67,7 +67,7 @@ public interface Endpoint {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 
-    default APIRequest<BeatmapSearch> searchBeatmaps(String search, SearchFilter filter) {
+    default APIRequest<BeatmapSearch> searchBeatmaps(String search, SearchOption filter) {
         throw new UnsupportedOperationException("This method is not compatible with this version of the API");
     }
 

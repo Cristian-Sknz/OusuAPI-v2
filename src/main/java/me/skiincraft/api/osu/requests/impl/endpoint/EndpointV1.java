@@ -13,6 +13,7 @@ import me.skiincraft.api.osu.impl.v1.score.ScoreV1Impl;
 import me.skiincraft.api.osu.impl.v1.user.UserV1Impl;
 import me.skiincraft.api.osu.impl.v2.score.BeatmapScoresImpl;
 import me.skiincraft.api.osu.object.game.GameMode;
+import me.skiincraft.api.osu.object.score.ScoreOption;
 import me.skiincraft.api.osu.object.score.ScoreType;
 import me.skiincraft.api.osu.requests.APIRequest;
 import me.skiincraft.api.osu.requests.Endpoint;
@@ -59,17 +60,17 @@ public class EndpointV1 implements Endpoint {
     }
 
     @Override
-    public APIRequest<List<Score>> getUserScore(long userId, ScoreType type) {
-        return getUserScore(String.valueOf(userId), type);
+    public APIRequest<List<Score>> getUserScore(long userId, ScoreOption option) {
+        return getUserScore(String.valueOf(userId), option);
     }
 
     @Override
-    public APIRequest<List<Score>> getUserScore(String username, ScoreType type) {
-        if (type.getAPIV1Endpoint() == null) {
+    public APIRequest<List<Score>> getUserScore(String username, ScoreOption option) {
+        if (option.getType().getAPIV1Endpoint() == null) {
             throw new UnsupportedOperationException("This method is not compatible with this version of the API");
         }
         return new DefaultAPIRequest<>(new Request
-                .Builder().url(URL_V1 + type.getAPIV1Endpoint() + String.format("?u=%s&k=%s", username, token.getToken())).build(),
+                .Builder().url(URL_V1 + option.getType().getAPIV1Endpoint() + String.format("?u=%s&k=%s&%s", username, token.getToken(), option.toV1QueueParameter())).build(),
                 (response -> {
                     try {
                         return Arrays.asList(new Gson().fromJson(checkResponse(response), ScoreV1Impl[].class));

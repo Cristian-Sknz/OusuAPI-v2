@@ -1,8 +1,9 @@
 package me.skiincraft.api.osu.object.beatmap;
 
+import me.skiincraft.api.osu.entity.other.Option;
 import me.skiincraft.api.osu.object.game.GameMode;
 
-public class SearchFilter {
+public class SearchOption implements Option {
 
     private GameMode gameMode = GameMode.Osu;
     private Approval category = Approval.ANY;
@@ -15,17 +16,17 @@ public class SearchFilter {
     private SearchSort sort = SearchSort.RANKED;
     private int sortType = SearchSort.DECREMENT;
 
-    public SearchFilter setVideo(boolean video) {
+    public SearchOption setVideo(boolean video) {
         this.video = video;
         return this;
     }
 
-    public SearchFilter setStoryboard(boolean storyboard) {
+    public SearchOption setStoryboard(boolean storyboard) {
         this.storyboard = storyboard;
         return this;
     }
 
-    public SearchFilter setSort(SearchSort sort, int sortType) {
+    public SearchOption setSort(SearchSort sort, int sortType) {
         this.sort = sort;
         this.sortType = sortType;
         return this;
@@ -35,7 +36,7 @@ public class SearchFilter {
         return gameMode;
     }
 
-    public SearchFilter setGameMode(GameMode gameMode) {
+    public SearchOption setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
         return this;
     }
@@ -44,7 +45,7 @@ public class SearchFilter {
         return category;
     }
 
-    public SearchFilter setCategory(Approval category) {
+    public SearchOption setCategory(Approval category) {
         this.category = category;
         return this;
     }
@@ -53,7 +54,7 @@ public class SearchFilter {
         return genre;
     }
 
-    public SearchFilter setGenre(Genre genre) {
+    public SearchOption setGenre(Genre genre) {
         this.genre = genre;
         return this;
     }
@@ -62,7 +63,7 @@ public class SearchFilter {
         return language;
     }
 
-    public SearchFilter setLanguage(Language language) {
+    public SearchOption setLanguage(Language language) {
         this.language = language;
         return this;
     }
@@ -83,6 +84,7 @@ public class SearchFilter {
         return sortType;
     }
 
+    @Override
     public String toQueueParameter() {
         return "m=" + gameMode.getId() +
                 (isAny(category) ? "" : "&s=" + category.name().toLowerCase()) +
@@ -98,7 +100,7 @@ public class SearchFilter {
 
     @Override
     public String toString() {
-        return "SearchFilter{" +
+        return "SearchOption{" +
                 "gameMode=" + gameMode +
                 ", category=" + category +
                 ", genre=" + genre +
