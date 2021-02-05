@@ -1,6 +1,7 @@
 package me.skiincraft.api.osu.requests.impl.endpoint;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSearch;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSet;
@@ -32,6 +33,7 @@ import okhttp3.Request;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,6 +97,24 @@ public class EndpointV2 implements Endpoint {
     @Override
     public APIRequest<List<Score>> getUserScore(String username, ScoreOption option) {
         return getUserScore(getUserId(username).get(), option);
+    }
+
+    @Override
+    public APIRequest<List<Score>> getUserScore(long userId, long beatmapId) {
+        return new DefaultAPIRequest<>(URL_V2 + String.format("beatmaps/%s/scores/users/%s", beatmapId, userId),
+                (response -> {
+                    try {
+                        return Collections.singletonList(new Gson().fromJson(JsonParser.parseString(Objects.requireNonNull(response.body()).string()).getAsJsonObject().get("score"), ScoreImpl.class));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }), token);
+    }
+
+    @Override
+    public APIRequest<List<Score>> getUserScore(String username, long beatmapId) {
+        return getUserScore(getUserId(username).get(), beatmapId);
     }
 
     @Override
