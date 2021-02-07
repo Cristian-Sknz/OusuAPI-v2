@@ -1,9 +1,11 @@
 package me.skiincraft.api.osu.impl.v2.beatmap;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import me.skiincraft.api.osu.entity.beatmap.Beatmap;
 import me.skiincraft.api.osu.entity.beatmap.BeatmapSetCompact;
 import me.skiincraft.api.osu.object.beatmap.Approval;
+import me.skiincraft.api.osu.object.beatmap.Covers;
 import me.skiincraft.api.osu.object.beatmap.FailTimes;
 
 import javax.annotation.Nullable;
@@ -45,6 +47,8 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
     private final int status;
     private final FailTimes failtimes;
     private final BeatmapSetCompactImpl beatmapset;
+    @Expose
+    private Covers covers;
 
 
     //v1
@@ -174,6 +178,14 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
         return beatmapset;
     }
 
+    @Override
+    public Covers getCovers() {
+        if (covers == null){
+            return covers = new Covers(getBeatmapSetId());
+        }
+        return (getBeatmapSet() != null) ? getBeatmapSet().getCovers() : covers;
+    }
+
     protected String getLastUpdatedString() {
         return lastUpdated;
     }
@@ -189,7 +201,7 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
                 ", bpm=" + bpm +
                 ", beatmapSetId=" + beatmapSetId +
                 ", playcount=" + playcount +
-                ", status=" + status +
+                ", status=" + status + ((getBeatmapSet() != null) ?
                 String.format(", beatmapset={%s}",
                         "title='" + getBeatmapSet().getTitle() + '\'' +
                                 ", artist='" + getBeatmapSet().getArtist() + '\'' +
@@ -198,6 +210,6 @@ public class BeatmapImpl extends BeatmapCompactImpl implements Beatmap {
                                 ", status=" + getBeatmapSet().getStatus() +
                                 ", userId=" + getBeatmapSet().getUserId() +
                                 "playcount=" + getBeatmapSet().getPlayCount()) +
-                "}";
+                "}" : "}");
     }
 }

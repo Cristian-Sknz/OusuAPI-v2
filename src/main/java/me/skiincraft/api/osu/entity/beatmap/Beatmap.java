@@ -1,6 +1,7 @@
 package me.skiincraft.api.osu.entity.beatmap;
 
 import me.skiincraft.api.osu.object.beatmap.Approval;
+import me.skiincraft.api.osu.object.beatmap.Covers;
 import me.skiincraft.api.osu.object.beatmap.FailTimes;
 
 import javax.annotation.Nullable;
@@ -48,6 +49,8 @@ public interface Beatmap extends BeatmapCompact {
     FailTimes getFailTimes(); //
 
     BeatmapSetCompact getBeatmapSet();
+
+    Covers getCovers();
 
     default BeatmapCompact toCompact() {
         return this;
