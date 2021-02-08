@@ -37,4 +37,6 @@ public interface OsuAPI {
     List<Token> getTokens();
 
     OkHttpClient getClient();
+
+    void setClient(OkHttpClient client);
 }

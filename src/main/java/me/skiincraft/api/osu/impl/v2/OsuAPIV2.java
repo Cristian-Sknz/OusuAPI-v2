@@ -130,8 +130,15 @@ public class OsuAPIV2 implements OsuAPI {
         return authApplication;
     }
 
+    @Nonnull
+    @Override
     public OkHttpClient getClient() {
         return StaticClient.getInstance().getClient();
+    }
+
+    @Override
+    public void setClient(OkHttpClient client) {
+        StaticClient.getInstance().setClient(client);
     }
 
     private RequestBody makeAuthUrl(String code) {

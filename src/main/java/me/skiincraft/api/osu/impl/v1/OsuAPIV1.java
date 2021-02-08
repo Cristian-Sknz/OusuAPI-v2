@@ -37,4 +37,8 @@ public class OsuAPIV1 implements OsuAPI {
         return StaticClient.getInstance().getClient();
     }
 
+    @Override
+    public void setClient(OkHttpClient client) {
+        StaticClient.getInstance().setClient(client);
+    }
 }
