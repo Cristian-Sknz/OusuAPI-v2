@@ -14,11 +14,11 @@ import java.util.Objects;
 public interface Score extends Comparable<Score> {
 
     default Long getBeatmapSetId() {
-        return Objects.requireNonNull(getBeatmapSet()).getBeatmapSetId();
+        return (getBeatmapSet() == null) ? Objects.requireNonNull(getBeatmap(), "beatmap is not available").getBeatmapSetId() : getBeatmapSet().getBeatmapSetId();
     }
 
     default long getBeatmapId() {
-        return Objects.requireNonNull(getBeatmap()).getBeatmapId();
+        return Objects.requireNonNull(getBeatmap(), "beatmap is not available").getBeatmapId();
     }
 
     @Nullable
