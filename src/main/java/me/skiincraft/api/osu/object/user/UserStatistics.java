@@ -7,7 +7,6 @@ import me.skiincraft.api.osu.impl.v2.user.UserCompactImpl;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class UserStatistics implements Comparable<UserStatistics> {
 
@@ -35,10 +34,14 @@ public class UserStatistics implements Comparable<UserStatistics> {
     private final boolean isRanked;
     @SerializedName("grade_counts")
     private final Grade grade;
-    private final Map<String, Integer> rank;
+    @SerializedName("global_rank")
+    private final int globalRank;
+    @SerializedName("country_rank")
+    private final int countryRank;
+
     private final UserCompactImpl user;
 
-    public UserStatistics(Map<String, Integer> level, float pp, float hitAccuracy, int ppRank, long rankedScore, long playCount, long playTime, long totalScore, long totalHits, long maxCombo, long replaysWatchds, boolean isRanked, Grade grade, Map<String, Integer> rank, UserCompactImpl user) {
+    public UserStatistics(Map<String, Integer> level, float pp, float hitAccuracy, int ppRank, long rankedScore, long playCount, long playTime, long totalScore, long totalHits, long maxCombo, long replaysWatchds, boolean isRanked, Grade grade, int globalRank, int countryRank, UserCompactImpl user) {
         this.level = level;
         this.pp = pp;
         this.hitAccuracy = hitAccuracy;
@@ -52,7 +55,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
         this.replaysWatcheds = replaysWatchds;
         this.isRanked = isRanked;
         this.grade = grade;
-        this.rank = rank;
+        this.globalRank = globalRank;
+        this.countryRank = countryRank;
         this.user = user;
     }
 
@@ -72,9 +76,8 @@ public class UserStatistics implements Comparable<UserStatistics> {
         this.replaysWatcheds = replaysWatchds;
         this.isRanked = isRanked;
         this.grade = grade;
-        this.rank = new HashMap<>();
-        rank.put("global", ppRank);
-        rank.put("country", ppCountry);
+        this.globalRank = ppRank;
+        this.countryRank = ppCountry;
         this.user = user;
     }
 
@@ -137,11 +140,11 @@ public class UserStatistics implements Comparable<UserStatistics> {
     }
 
     public long getGlobalRank() {
-        return (Objects.isNull(rank) || !rank.containsKey("global")) ? getPpRank() : checkNull(rank.get("global"));
+        return globalRank;
     }
 
     public long getCountryRank() {
-        return (Objects.isNull(rank) || !rank.containsKey("country")) ? 0 : checkNull(rank.get("country"));
+        return countryRank;
     }
 
     private int checkNull(Integer value){
@@ -165,7 +168,7 @@ public class UserStatistics implements Comparable<UserStatistics> {
                 "user=" + user +
                 ", pp=" + pp +
                 ", grade=" + grade +
-                ", rank=" + rank +
+                ", rank=" + globalRank +
                 '}';
     }
 }
